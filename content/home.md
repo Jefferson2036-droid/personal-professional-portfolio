@@ -3,6 +3,23 @@ title: "BSEAI Pitch Presentation"
 layout: "presentation"
 ---
 
+![bg 55% 62%](/NJIT-Eberhardt-Hall.jpg)
+
+## B.S. Enterprise AI — NJIT
+
+# Launching Fall 2026
+
+The B.S. in Enterprise AI is a studio-based, enterprise-facing degree for
+the people who will design, operate, integrate, and govern AI-enabled
+systems in real organizations.
+
+```cta
+[See why this degree exists](/why-bseai)
+[Read the historical analogy](/new-renaissance)
+```
+
+---
+
 ![bg](/images/historical/easter_1900_no_cars.jpg)
 
 ## New York, 1900
@@ -25,23 +42,6 @@ Technology changed first. Then streets, supply chains, labor, and
 institutions reorganized around it.
 
 *A new machine rewrote the street.*
-
----
-
-![bg 55% 62%](/NJIT-Eberhardt-Hall.jpg)
-
-## Fall 2026
-
-# A new degree, on the record
-
-The B.S. in Enterprise AI is a studio-based, enterprise-facing degree for
-the people who will design, operate, integrate, and govern AI-enabled
-systems in real organizations.
-
-```cta
-[See why this degree exists](/why-bseai)
-[Read the historical analogy](/new-renaissance)
-```
 
 ---
 
@@ -74,15 +74,16 @@ sweBenchVerified, sweBenchSite, gpqaPaper, aiIndex2025
 
 ## What Just Happened, 2023–2026
 
-# Three very different kinds of work all ended up in the same place
+# Three very different kinds of work, rising into the same ceiling in three years
 
 ```model-progress
 ```
 
-Each row is one benchmark. Each bar shows how far its failure rate
-fell. The green band on the left is *saturation* — below 10% remaining
-error, researchers consider the test essentially exhausted. All three
-are now there.
+Each line is one benchmark over time. The green band at the top is
+*saturation* — scores above roughly 90%, where researchers consider the
+test essentially exhausted. MMLU started there. GPQA and SWE-bench
+Verified climbed into it from very different starting points, in two and
+three years respectively.
 
 ```source-line
 benchmarksLocal, mythosCard, sweBenchVerified, gpqaPaper, aiIndex2025

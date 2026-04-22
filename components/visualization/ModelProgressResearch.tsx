@@ -4,80 +4,97 @@ import React from 'react';
 import { SourceLine } from '../ui/SourceLine';
 
 /**
- * Error-collapse dumbbell.
+ * Time-rise benchmark chart.
  *
- * The slide argues two things at once:
- *   1. Three benchmarks of very different kinds of work all ended up inside
- *      the same <10% saturation band.
- *   2. Two of them had to fall a very long way to get there; a third was
- *      already close — the leading indicator.
+ * The slide argues: three very different kinds of work all climbed into the
+ * same saturation ceiling within a three-year window. That is a *time*
+ * story, so time is the x-axis. Score is y. The saturation band at >=90%
+ * is the ceiling they are rising into.
  *
- * A line chart forces those into one crowded y-axis and labels pile up at
- * the endpoints. A dumbbell gives each benchmark its own row, makes
- * distance-fallen the horizontal length of the bar, and renders convergence
- * as three dark dots stacked against the saturation floor on the left.
- *
- * Label placement avoids collisions: START label ABOVE the ring, END label
- * BELOW the dot. Even when the two endpoints are close (MMLU), labels never
- * overlap.
+ * Design choices:
+ *  - Real milestone data, no imputation. If a benchmark has no report in a
+ *    given year, the line skips it (SWE-bench Verified only reports from
+ *    2024; MMLU is not reported in 2026 — it stopped being measured because
+ *    it is considered saturated).
+ *  - Each series is labeled at its terminal dot on the right, so the chart
+ *    needs no separate legend.
+ *  - Saturation band is a single horizontal strip across the top, not three
+ *    per-row bands, so "they all land in the same ceiling" is visible.
+ *  - Headline annotation on the steepest climbs (GPQA, SWE-bench Verified)
+ *    is placed in empty space between the lines.
  */
 
-type Endpoint = { year: number; score: number };
+type Point = { year: number; score: number };
 
-interface Row {
+interface Series {
   key: string;
   label: string;
   note: string;
   color: string;
-  start: Endpoint;
-  end: Endpoint;
+  points: Point[];
 }
 
-const rows: Row[] = [
+// Milestone scores from docs/_specs/slides/slide-04-benchmark-record.md
+const series: Series[] = [
   {
     key: 'swe-verified',
     label: 'SWE-bench Verified',
-    note: 'software engineering — agents fixing real GitHub issues',
+    note: 'software engineering — fixing real GitHub issues',
     color: '#8a3a1f',
-    start: { year: 2024, score: 33.2 },
-    end:   { year: 2026, score: 93.9 },
+    points: [
+      { year: 2024, score: 33.2 },
+      { year: 2025, score: 80.9 },
+      { year: 2026, score: 93.9 },
+    ],
   },
   {
     key: 'gpqa',
     label: 'GPQA Diamond',
-    note: 'hard-science reasoning — graduate physics, chem, bio',
+    note: 'hard-science reasoning — PhD physics, chem, bio',
     color: '#6f4a8f',
-    start: { year: 2023, score: 39.0 },
-    end:   { year: 2026, score: 94.5 },
+    points: [
+      { year: 2023, score: 39.0 },
+      { year: 2024, score: 59.4 },
+      { year: 2025, score: 86.95 },
+      { year: 2026, score: 94.5 },
+    ],
   },
   {
     key: 'mmlu',
     label: 'MMLU',
-    note: 'broad knowledge QA — leading indicator, near-saturated in 2023',
+    note: 'broad knowledge QA — leading indicator',
     color: '#2d5f4a',
-    start: { year: 2023, score: 86.4 },
-    end:   { year: 2025, score: 93.4 },
+    points: [
+      { year: 2023, score: 86.4 },
+      { year: 2024, score: 90.4 },
+      { year: 2025, score: 93.4 },
+    ],
   },
 ];
 
 // Geometry
 const width = 960;
-const rowHeight = 140;          // bumped from 120 — more breathing room
-const topPad = 96;
-const bottomPad = 56;
-const height = topPad + rows.length * rowHeight + bottomPad;
+const height = 520;
+const padTop = 72;
+const padBottom = 72;
+const padLeft = 72;
+const padRight = 260; // room for terminal labels
 
-const axisLeft = 260;           // left gutter for benchmark names
-const axisRight = 110;          // right gutter for "−XX% in Yy" summary
-const scaleMin = 0;
-const scaleMax = 70;
+const xMin = 2023;
+const xMax = 2026;
+const yMin = 0;
+const yMax = 100;
+const saturationY = 90;
 
-function xFor(error: number) {
-  return axisLeft + ((error - scaleMin) / (scaleMax - scaleMin)) * (width - axisLeft - axisRight);
+function xFor(year: number) {
+  return padLeft + ((year - xMin) / (xMax - xMin)) * (width - padLeft - padRight);
+}
+function yFor(score: number) {
+  return padTop + (1 - (score - yMin) / (yMax - yMin)) * (height - padTop - padBottom);
 }
 
-const xTicks = [0, 10, 25, 50, 70];
-const saturationEdge = xFor(10);
+const yTicks = [0, 25, 50, 75, 100];
+const xYears = [2023, 2024, 2025, 2026];
 
 export function ModelProgressResearch() {
   return (
@@ -99,233 +116,212 @@ export function ModelProgressResearch() {
           viewBox={`0 0 ${width} ${height}`}
           preserveAspectRatio="xMidYMid meet"
           role="img"
-          aria-label="Three benchmarks of different kinds of work collapsed from 14, 61, and 67 percent remaining error to between 5.5 and 6.6 percent — all landing inside the under-10-percent saturation band."
+          aria-label="Three benchmarks rising into the 90% saturation ceiling between 2023 and 2026. MMLU starts at 86.4 in 2023 and crosses the ceiling in 2024. GPQA Diamond climbs from 39.0 in 2023 to 94.5 in 2026. SWE-bench Verified climbs from 33.2 in 2024 to 93.9 in 2026."
           style={{ overflow: 'visible' }}
         >
-          {/* Saturation band */}
+          {/* Saturation ceiling band: score >= 90 */}
           <rect
-            x={xFor(0)}
-            y={topPad - 20}
-            width={saturationEdge - xFor(0)}
-            height={rows.length * rowHeight + 20}
-            fill="rgba(45, 95, 74, 0.10)"
+            x={padLeft}
+            y={yFor(100)}
+            width={width - padLeft - padRight}
+            height={yFor(saturationY) - yFor(100)}
+            fill="rgba(45, 95, 74, 0.12)"
+          />
+          <line
+            x1={padLeft}
+            y1={yFor(saturationY)}
+            x2={width - padRight}
+            y2={yFor(saturationY)}
+            stroke="rgba(45, 95, 74, 0.45)"
+            strokeWidth="1"
+            strokeDasharray="4 4"
           />
           <text
-            x={xFor(0) + 6}
-            y={topPad - 54}
+            x={width - padRight - 8}
+            y={yFor(100) + 18}
+            textAnchor="end"
             fontSize="12"
-            fill="rgba(45, 95, 74, 0.9)"
             fontWeight="700"
-            letterSpacing="0.08em"
+            letterSpacing="0.12em"
+            fill="rgba(45, 95, 74, 0.9)"
           >
-            SATURATION FLOOR
+            SATURATION CEILING
           </text>
           <text
-            x={xFor(0) + 6}
-            y={topPad - 38}
+            x={width - padRight - 8}
+            y={yFor(100) + 34}
+            textAnchor="end"
             fontSize="11"
-            fill="rgba(45, 95, 74, 0.75)"
             fontWeight="600"
             letterSpacing="0.04em"
+            fill="rgba(45, 95, 74, 0.72)"
           >
-            &lt; 10% ERROR
+            ≥ 90% SCORE
           </text>
 
-          {/* Axis title (top) */}
+          {/* Y axis title */}
           <text
-            x={(axisLeft + (width - axisRight)) / 2}
-            y={topPad - 74}
-            textAnchor="middle"
+            x={padLeft - 48}
+            y={padTop - 28}
             fontSize="12"
             fontWeight="700"
-            letterSpacing="0.16em"
+            letterSpacing="0.14em"
             fill="rgba(31, 26, 22, 0.55)"
           >
-            % REMAINING ERROR  (100 − score)
+            BENCHMARK SCORE
           </text>
 
-          {/* Top ticks */}
-          {xTicks.map((tick) => (
-            <g key={`t-${tick}`}>
+          {/* Y ticks + gridlines */}
+          {yTicks.map((t) => (
+            <g key={`y-${t}`}>
               <line
-                x1={xFor(tick)}
-                y1={topPad - 12}
-                x2={xFor(tick)}
-                y2={topPad + rows.length * rowHeight}
-                stroke="rgba(31, 26, 22, 0.08)"
+                x1={padLeft}
+                y1={yFor(t)}
+                x2={width - padRight}
+                y2={yFor(t)}
+                stroke="rgba(31, 26, 22, 0.06)"
                 strokeWidth="1"
               />
               <text
-                x={xFor(tick)}
-                y={topPad - 18}
-                textAnchor="middle"
-                fill="rgba(31, 26, 22, 0.7)"
+                x={padLeft - 12}
+                y={yFor(t) + 4}
+                textAnchor="end"
                 fontSize="13"
+                fill="rgba(31, 26, 22, 0.7)"
               >
-                {tick}%
+                {t}%
               </text>
             </g>
           ))}
 
-          {/* Dumbbells */}
-          {rows.map((r, i) => {
-            const y = topPad + i * rowHeight + rowHeight / 2;
-            const startErr = 100 - r.start.score;
-            const endErr = 100 - r.end.score;
-            const xStart = xFor(startErr);
-            const xEnd = xFor(endErr);
-            const years = r.end.year - r.start.year;
-            const relativeCut = ((startErr - endErr) / startErr) * 100;
+          {/* X ticks */}
+          {xYears.map((y) => (
+            <g key={`x-${y}`}>
+              <line
+                x1={xFor(y)}
+                y1={padTop}
+                x2={xFor(y)}
+                y2={height - padBottom}
+                stroke="rgba(31, 26, 22, 0.05)"
+                strokeWidth="1"
+              />
+              <text
+                x={xFor(y)}
+                y={height - padBottom + 24}
+                textAnchor="middle"
+                fontSize="14"
+                fontWeight="600"
+                fill="rgba(31, 26, 22, 0.72)"
+              >
+                {y}
+              </text>
+            </g>
+          ))}
+
+          {/* Series lines + points + terminal labels */}
+          {series.map((s) => {
+            const pts = s.points;
+            const last = pts[pts.length - 1];
+            const first = pts[0];
+            const pathD = pts
+              .map((p, i) => `${i === 0 ? 'M' : 'L'} ${xFor(p.year)} ${yFor(p.score)}`)
+              .join(' ');
+            const deltaPts = last.score - first.score;
+            const deltaYrs = last.year - first.year;
 
             return (
-              <g key={r.key}>
-                {/* Row baseline */}
-                <line
-                  x1={xFor(0)}
-                  y1={y}
-                  x2={xFor(scaleMax)}
-                  y2={y}
-                  stroke="rgba(31, 26, 22, 0.06)"
-                  strokeWidth="1"
-                />
+              <g key={s.key}>
+                {/* Glow under the line for separation against gridlines */}
+                <path d={pathD} fill="none" stroke={s.color} strokeOpacity="0.18" strokeWidth="8" strokeLinecap="round" strokeLinejoin="round" />
+                <path d={pathD} fill="none" stroke={s.color} strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round" />
 
-                {/* Left gutter: name + descriptor */}
+                {/* Milestone dots with small score labels */}
+                {pts.map((p, i) => {
+                  const isTerminal = i === pts.length - 1;
+                  const isStart = i === 0;
+                  // Place per-point score label above the dot by default,
+                  // below when the dot is already high in the chart (>= 85).
+                  const above = p.score < 85;
+                  const labelY = yFor(p.score) + (above ? -14 : 22);
+                  return (
+                    <g key={`${s.key}-${p.year}`}>
+                      <circle
+                        cx={xFor(p.year)}
+                        cy={yFor(p.score)}
+                        r={isTerminal ? 8 : 5.5}
+                        fill={isTerminal ? s.color : 'rgba(255,253,249,1)'}
+                        stroke={s.color}
+                        strokeWidth={isTerminal ? 0 : 2.5}
+                      />
+                      {(isStart || isTerminal) && (
+                        <text
+                          x={xFor(p.year)}
+                          y={labelY}
+                          textAnchor="middle"
+                          fontSize="13"
+                          fontWeight="700"
+                          fill={s.color}
+                        >
+                          {p.score.toFixed(p.score % 1 === 0 ? 0 : 1)}
+                        </text>
+                      )}
+                    </g>
+                  );
+                })}
+
+                {/* Terminal series label, right of last dot */}
                 <text
-                  x={axisLeft - 20}
-                  y={y - 2}
-                  textAnchor="end"
-                  fontSize="20"
+                  x={xFor(last.year) + 16}
+                  y={yFor(last.score) - 4}
+                  fontSize="18"
                   fontWeight="700"
-                  fill="rgba(31, 26, 22, 0.92)"
+                  fill={s.color}
                 >
-                  {r.label}
+                  {s.label}
                 </text>
                 <text
-                  x={axisLeft - 20}
-                  y={y + 20}
-                  textAnchor="end"
+                  x={xFor(last.year) + 16}
+                  y={yFor(last.score) + 14}
                   fontSize="12"
                   fontStyle="italic"
-                  fill="rgba(31, 26, 22, 0.58)"
+                  fill="rgba(31, 26, 22, 0.62)"
                 >
-                  {r.note}
+                  {s.note}
                 </text>
-
-                {/* Connector */}
-                <line
-                  x1={xStart}
-                  y1={y}
-                  x2={xEnd}
-                  y2={y}
-                  stroke={r.color}
-                  strokeWidth="5"
-                  strokeLinecap="round"
-                  opacity="0.32"
-                />
-
-                {/* START ring — label ABOVE */}
-                <circle
-                  cx={xStart}
-                  cy={y}
-                  r={10}
-                  fill="rgba(255, 253, 249, 1)"
-                  stroke={r.color}
-                  strokeWidth="3"
-                />
                 <text
-                  x={xStart}
-                  y={y - 22}
-                  textAnchor="middle"
-                  fontSize="13"
+                  x={xFor(last.year) + 16}
+                  y={yFor(last.score) + 32}
+                  fontSize="12"
                   fontWeight="600"
-                  fill={r.color}
-                  opacity="0.82"
+                  letterSpacing="0.04em"
+                  fill={s.color}
+                  opacity="0.78"
                 >
-                  {r.start.year}
-                </text>
-                <text
-                  x={xStart}
-                  y={y - 38}
-                  textAnchor="middle"
-                  fontSize="15"
-                  fontWeight="700"
-                  fill={r.color}
-                >
-                  {startErr.toFixed(0)}%
-                </text>
-
-                {/* END dot — label BELOW */}
-                <circle cx={xEnd} cy={y} r={11} fill={r.color} />
-                <text
-                  x={xEnd}
-                  y={y + 28}
-                  textAnchor="middle"
-                  fontSize="13"
-                  fontWeight="600"
-                  fill={r.color}
-                  opacity="0.85"
-                >
-                  {r.end.year}
-                </text>
-                <text
-                  x={xEnd}
-                  y={y + 46}
-                  textAnchor="middle"
-                  fontSize="16"
-                  fontWeight="700"
-                  fill={r.color}
-                >
-                  {endErr.toFixed(1)}%
-                </text>
-
-                {/* Right gutter: relative cut */}
-                <text
-                  x={width - axisRight + 12}
-                  y={y - 4}
-                  fontSize="15"
-                  fontWeight="700"
-                  fill="rgba(31, 26, 22, 0.85)"
-                >
-                  −{relativeCut.toFixed(0)}%
-                </text>
-                <text
-                  x={width - axisRight + 12}
-                  y={y + 14}
-                  fontSize="11"
-                  fill="rgba(31, 26, 22, 0.55)"
-                  letterSpacing="0.06em"
-                >
-                  in {years}y
+                  {deltaPts >= 0 ? '+' : ''}
+                  {deltaPts.toFixed(1)} pts in {deltaYrs}y
                 </text>
               </g>
             );
           })}
 
-          {/* Bottom ticks */}
-          {xTicks.map((tick) => (
-            <text
-              key={`b-${tick}`}
-              x={xFor(tick)}
-              y={topPad + rows.length * rowHeight + 22}
-              textAnchor="middle"
-              fill="rgba(31, 26, 22, 0.7)"
-              fontSize="13"
-            >
-              {tick}%
-            </text>
-          ))}
-
-          {/* Legend */}
-          <g transform={`translate(${axisLeft}, ${height - 20})`}>
-            <circle cx={0} cy={0} r={7} fill="rgba(255, 253, 249, 1)" stroke="rgba(31,26,22,0.55)" strokeWidth="2" />
-            <text x={14} y={4} fontSize="12" fill="rgba(31, 26, 22, 0.65)">
-              starting year
-            </text>
-            <circle cx={150} cy={0} r={8} fill="rgba(31, 26, 22, 0.75)" />
-            <text x={166} y={4} fontSize="12" fill="rgba(31, 26, 22, 0.65)">
-              most recent year
-            </text>
-          </g>
+          {/* X axis baseline */}
+          <line
+            x1={padLeft}
+            y1={height - padBottom}
+            x2={width - padRight}
+            y2={height - padBottom}
+            stroke="rgba(31, 26, 22, 0.35)"
+            strokeWidth="1.25"
+          />
+          {/* Y axis baseline */}
+          <line
+            x1={padLeft}
+            y1={padTop}
+            x2={padLeft}
+            y2={height - padBottom}
+            stroke="rgba(31, 26, 22, 0.35)"
+            strokeWidth="1.25"
+          />
         </svg>
 
         <SourceLine
@@ -342,3 +338,4 @@ export function ModelProgressResearch() {
     </div>
   );
 }
+
