@@ -50,16 +50,19 @@
   /* ---------- Unified slide typography tokens ----------
      One scale used by every slide panel (background, standard, split) so the
      same markdown heading renders at the same size regardless of container.
-     Tuned to fit a 15-minute deck inside a 100vh stage without clipping. */
-  --slide-display:  clamp(2.2rem, 3.6vw, 3.4rem);   /* primary display title */
-  --slide-dek:      clamp(1.05rem, 1.3vw, 1.28rem); /* italic subhead paired w/ display */
-  --slide-eyebrow:  clamp(0.78rem, 0.9vw, 0.92rem); /* uppercase tag above display */
-  --slide-body:     clamp(1rem, 1.15vw, 1.14rem);   /* paragraph copy */
-  --slide-list:     clamp(0.96rem, 1.08vw, 1.08rem);/* bullets, numbered lists */
-  --slide-quote:    clamp(1.02rem, 1.2vw, 1.18rem); /* pullquote */
-  --slide-line-body: 1.52;
-  --slide-line-list: 1.48;
-  --slide-line-display: 0.96;
+     Sized for a *projected* 15-minute deck: text must read at the back of a
+     classroom, not on a code reviewer's laptop. Densest slides (home deck #9,
+     #14 with 8-12 short paragraphs) still fit within ~85vh of usable stage
+     on a 1080p viewport at these sizes. */
+  --slide-display:  clamp(2.6rem, 5vw, 4.6rem);     /* ~42-74px primary title */
+  --slide-dek:      clamp(1.2rem, 1.7vw, 1.55rem);  /* ~19-25px italic subhead */
+  --slide-eyebrow:  clamp(0.85rem, 1.05vw, 1rem);   /* ~14-16px uppercase tag */
+  --slide-body:     clamp(1.15rem, 1.5vw, 1.4rem);  /* ~18-22px paragraph copy */
+  --slide-list:     clamp(1.1rem, 1.4vw, 1.3rem);   /* ~17.6-21px bullets */
+  --slide-quote:    clamp(1.2rem, 1.6vw, 1.45rem);  /* ~19-23px pullquote */
+  --slide-line-body: 1.5;
+  --slide-line-list: 1.46;
+  --slide-line-display: 0.98;
   --slide-max-measure: 62ch;
 
   /* ---------- Shared UI tokens (radius / glass / shadows / tints) ---------- */
