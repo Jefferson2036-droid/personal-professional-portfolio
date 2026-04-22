@@ -989,16 +989,23 @@ body.is-middle-slide {
 }
 
 /* Logo-style media: a transparent/flat mark rather than a photographic composition.
-   Constrain it, center it, and paint a neutral backdrop so the logo reads. */
+   The logo PNG is itself transparent, so we drop the card chrome (backdrop,
+   shadow, border) and let the mark float directly on the slide background.
+   This also means the logo reads the same regardless of slide background color. */
 .split-layout__media--logo {
-  background: linear-gradient(180deg, #fffdf9 0%, #f5efe3 100%);
-  box-shadow: -20px 0 50px rgba(31, 26, 22, 0.14), inset 0 0 0 1px rgba(31, 26, 22, 0.06);
+  background: transparent;
+  box-shadow: none;
+  border-radius: 0;
+  overflow: visible;
 }
 
 .split-layout__media--logo img {
   object-fit: contain !important;
   object-position: center !important;
   padding: clamp(2rem, 6vw, 5rem);
+  /* Very soft drop shadow so the dark mark has a hint of lift against cream,
+     without implying a card edge. */
+  filter: drop-shadow(0 6px 18px rgba(31, 26, 22, 0.08));
 }
 
 /* 
