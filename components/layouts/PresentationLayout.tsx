@@ -79,6 +79,7 @@ export function PresentationLayout({ page }: LayoutProps) {
                 src={slide.backgroundSrc}
                 alt={`Slide ${index} background`}
                 mode={index === 0 ? "opening" : "standard"}
+                focal={slide.backgroundFocal}
               />
             )}
 

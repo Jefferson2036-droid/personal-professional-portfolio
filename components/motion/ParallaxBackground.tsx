@@ -8,6 +8,8 @@ interface ParallaxBackgroundProps {
   src: string;
   alt: string;
   mode?: "standard" | "opening";
+  /** CSS object-position value to pin the focal point, e.g. `50% 65%`. */
+  focal?: string | null;
 }
 
 /**
@@ -15,7 +17,7 @@ interface ParallaxBackgroundProps {
  * intersection with the viewport, creating a per-slide parallax depth effect.
  * Also features Velocity-Driven Motion Blur for elite cinematic momentum.
  */
-export function ParallaxBackground({ src, alt, mode = "standard" }: ParallaxBackgroundProps) {
+export function ParallaxBackground({ src, alt, mode = "standard", focal }: ParallaxBackgroundProps) {
   const slideContext = useSlideContext();
   const fallbackProgress = useMotionValue(0.5);
   const { scrollY } = useScroll();
@@ -95,6 +97,7 @@ export function ParallaxBackground({ src, alt, mode = "standard" }: ParallaxBack
           width: '100%',
           height: '100%',
           objectFit: 'cover',
+          objectPosition: focal ?? 'center',
           opacity: 1,
           transformOrigin: 'center'
         }}

@@ -2,6 +2,8 @@ export interface SlideNode {
   rawContent: string;
   cleanContent: string;
   backgroundSrc: string | null;
+  /** Optional `object-position` for the background image, e.g. `50% 65%`. */
+  backgroundFocal: string | null;
   splitSrc: string | null;
   splitReverseSrc: string | null;
 }
@@ -25,9 +27,12 @@ export function splitMarkdownIntoSlides(content: string): SlideNode[] {
     .map((chunk) => chunk.trim())
     .filter((chunk) => chunk.length > 0)
     .map((slide) => {
-      // Parse Marp-style image directives
-      const bgMatch = slide.match(/!\[bg\]\((.*?)\)/);
-      const backgroundSrc = bgMatch ? bgMatch[1] : null;
+      // Parse Marp-style image directives.
+      // Accepts either `![bg](url)` or `![bg 50% 65%](url)` where the trailing
+      // token is used as CSS `object-position` to frame the image.
+      const bgMatch = slide.match(/!\[bg(?:\s+([^\]]+))?\]\((.*?)\)/);
+      const backgroundSrc = bgMatch ? bgMatch[2] : null;
+      const backgroundFocal = bgMatch && bgMatch[1] ? bgMatch[1].trim() : null;
 
       const splitMatch = slide.match(/!\[split\]\((.*?)\)/);
       const splitSrc = splitMatch ? splitMatch[1] : null;
@@ -37,7 +42,7 @@ export function splitMarkdownIntoSlides(content: string): SlideNode[] {
 
       // Remove the directives from the text content so they don't render inline
       let cleanContent = slide;
-      if (backgroundSrc) cleanContent = cleanContent.replace(/!\[bg\]\(.*?\)/, '');
+      if (backgroundSrc) cleanContent = cleanContent.replace(/!\[bg(?:\s+[^\]]+)?\]\(.*?\)/, '');
       if (splitSrc) cleanContent = cleanContent.replace(/!\[split\]\(.*?\)/, '');
       if (splitReverseSrc) cleanContent = cleanContent.replace(/!\[split-reverse\]\(.*?\)/, '');
 
@@ -45,6 +50,7 @@ export function splitMarkdownIntoSlides(content: string): SlideNode[] {
         rawContent: slide,
         cleanContent: cleanContent.trim(),
         backgroundSrc,
+        backgroundFocal,
         splitSrc,
         splitReverseSrc
       };

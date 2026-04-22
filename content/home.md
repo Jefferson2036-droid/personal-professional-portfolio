@@ -28,7 +28,7 @@ institutions reorganized around it.
 
 ---
 
-![bg](/images/media/modules/generated/dartmouth-proposal.webp)
+![bg 55% 62%](/NJIT-Eberhardt-Hall.jpg)
 
 ## Fall 2026
 

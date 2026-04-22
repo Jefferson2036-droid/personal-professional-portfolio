@@ -14,6 +14,7 @@ describe("splitMarkdownIntoSlides", () => {
         rawContent: markdown,
         cleanContent: markdown,
         backgroundSrc: null,
+        backgroundFocal: null,
         splitSrc: null,
         splitReverseSrc: null,
       },
