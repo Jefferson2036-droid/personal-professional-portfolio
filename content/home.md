@@ -552,25 +552,27 @@ is built for who they actually are, not who we wish they were.
 
 ---
 
-## What I'd Ask of Colleagues
+## An Open Invitation
 
-# Open a conversation
+# Start a conversation
 
-The degree is approved. The cohort is enrolled. The work from here is
-not recruitment — it is collaboration.
+If any of this resonates — or if it gets something wrong — I'd like to
+hear from you.
 
-I'd like to hear what your discipline insists a graduate must become.
-Not what we test for — what you actually think makes someone educated
-in your field. This first draft will be wrong in ways I cannot see
-from inside IT, and it gets better every time someone outside the
-department makes it better.
+Whatever your field, whatever your role: what do you think a graduate
+entering this decade actually needs to become? Not what we test for —
+what you believe makes someone educated for the work ahead.
 
-**Join the BSEAI faculty Discord.** That's the room where the second
-draft gets written — async, low-stakes, open to anyone on campus who
-cares about what graduates become.
+This is a first draft. It will be wrong in ways I cannot see from
+where I'm standing. It gets better every time someone from outside
+makes it better.
+
+**Join the Discord.** That's the room where the second draft gets
+written — async, low-stakes, open to anyone thinking about these
+questions.
 
 ```cta
-[Join the BSEAI Discord](https://discord.gg/PuKVYQ86ms)
+[Join the Discord](https://discord.gg/PuKVYQ86ms)
 ```
 
 ---
