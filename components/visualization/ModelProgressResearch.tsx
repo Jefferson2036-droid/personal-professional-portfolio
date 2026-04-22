@@ -4,95 +4,83 @@ import React from 'react';
 import { SourceLine } from '../ui/SourceLine';
 
 /**
- * Error-collapse chart.
+ * Error-collapse dumbbell.
  *
- * We plot *remaining error* (100 − score) instead of raw score. The editorial
- * argument — "three different kinds of work, failure rates cut ~90% in under
- * three years" — is an argument about error collapse, not a climb. Inverting
- * the axis makes the lines fall, which is literally the thing the viewer is
- * supposed to see.
+ * The slide argues two things at once:
+ *   1. Three benchmarks of very different kinds of work all ended up inside
+ *      the same <10% saturation band.
+ *   2. Two of them had to fall a very long way to get there; a third was
+ *      already close — the leading indicator.
  *
- * Three benchmarks only, each with a clean ≥3-point trajectory:
- *   SWE-bench Verified  — software-engineering agents
- *   GPQA Diamond        — graduate-level hard-science reasoning
- *   MMLU                — broad knowledge QA (saturation reference)
+ * A line chart forces those into one crowded y-axis; endpoint labels collide
+ * where the whole point of the slide is "they end up in the same place." A
+ * dumbbell gives each benchmark its own row, makes the distance-fallen the
+ * horizontal length of the bar, and renders convergence as three dark dots
+ * stacked against the saturation floor on the left.
  *
- * SWE-bench (original), HumanEval, and MMMU are dropped — gaps or early
- * termination split attention. Full underlying table: /model-progress-research.
+ * Axis: % REMAINING ERROR (100 − score), 0% at the left, 70% at the right.
+ * Row: start-dot (light, starting year) → connector → end-dot (dark, end year).
+ * Shaded band 0–10% = "saturation floor".
  */
 
-type Point = { year: number; score: number };
+type Endpoint = { year: number; score: number };
 
-interface Series {
+interface Row {
   key: string;
   label: string;
   note: string;
   color: string;
-  points: Point[];
+  start: Endpoint;
+  end: Endpoint;
 }
 
-const series: Series[] = [
+// Starting score = first publicly reported frontier score in our window.
+// Ending score = most recent reported score. Full table: /model-progress-research.
+const rows: Row[] = [
   {
     key: 'swe-verified',
     label: 'SWE-bench Verified',
-    note: 'software engineering',
+    note: 'software engineering — agents resolving real GitHub issues',
     color: '#8a3a1f',
-    points: [
-      { year: 2024, score: 33.2 },
-      { year: 2025, score: 80.9 },
-      { year: 2026, score: 93.9 },
-    ],
+    start: { year: 2024, score: 33.2 },
+    end:   { year: 2026, score: 93.9 },
   },
   {
     key: 'gpqa',
     label: 'GPQA Diamond',
-    note: 'hard-science reasoning',
+    note: 'hard-science reasoning — graduate-level physics, chem, bio',
     color: '#6f4a8f',
-    points: [
-      { year: 2023, score: 39.0 },
-      { year: 2024, score: 59.4 },
-      { year: 2025, score: 86.95 },
-      { year: 2026, score: 94.5 },
-    ],
+    start: { year: 2023, score: 39.0 },
+    end:   { year: 2026, score: 94.5 },
   },
   {
     key: 'mmlu',
     label: 'MMLU',
-    note: 'broad knowledge QA',
+    note: 'broad knowledge QA — the leading indicator, near saturation in 2023',
     color: '#2d5f4a',
-    points: [
-      { year: 2023, score: 86.4 },
-      { year: 2024, score: 90.4 },
-      { year: 2025, score: 93.4 },
-    ],
+    start: { year: 2023, score: 86.4 },
+    end:   { year: 2025, score: 93.4 },
   },
 ];
 
-const width = 900;
-const height = 460;
-const padding = { top: 52, right: 200, bottom: 64, left: 78 };
-const yearMin = 2023;
-const yearMax = 2026;
-const errMin = 0;
-const errMax = 70;
+// Geometry
+const width = 940;
+const rowHeight = 120;
+const topPad = 84;
+const bottomPad = 48;
+const height = topPad + rows.length * rowHeight + bottomPad;
 
-function xFor(year: number) {
-  return (
-    padding.left +
-    ((year - yearMin) / (yearMax - yearMin)) * (width - padding.left - padding.right)
-  );
-}
-function yFor(error: number) {
-  return (
-    padding.top +
-    ((error - errMin) / (errMax - errMin)) * (height - padding.top - padding.bottom)
-  );
+const axisLeft = 240;   // leaves room for labels in the left gutter
+const axisRight = 60;
+const scaleMin = 0;
+const scaleMax = 70;
+
+function xFor(error: number) {
+  return axisLeft + ((error - scaleMin) / (scaleMax - scaleMin)) * (width - axisLeft - axisRight);
 }
 
-const saturationTop = yFor(10);
-const saturationBottom = yFor(0);
-const yTicks = [0, 10, 25, 50, 70];
-const yearTicks = [2023, 2024, 2025, 2026];
+const xTicks = [0, 10, 25, 50, 70];
+const saturationEdge = xFor(10);
 
 export function ModelProgressResearch() {
   return (
@@ -103,7 +91,7 @@ export function ModelProgressResearch() {
       <div
         className="model-progress-panel"
         style={{
-          width: 'min(100%, 78rem)',
+          width: 'min(100%, 80rem)',
           display: 'grid',
           gap: '0.9rem',
           padding: '1.5rem 1.75rem 1.25rem',
@@ -114,164 +102,192 @@ export function ModelProgressResearch() {
           viewBox={`0 0 ${width} ${height}`}
           preserveAspectRatio="xMidYMid meet"
           role="img"
-          aria-label="Remaining error on SWE-bench Verified, GPQA Diamond, and MMLU collapsed from roughly 61 to 6 percent between 2023 and 2026."
+          aria-label="Three benchmarks of different kinds of work collapsed from 14, 61, and 67 percent remaining error to between 5.5 and 6.6 percent — all landing inside the under-10-percent saturation band."
           style={{ overflow: 'visible' }}
         >
+          {/* Saturation band — 0 to 10% remaining error */}
           <rect
-            x={padding.left}
-            y={saturationTop}
-            width={width - padding.left - padding.right}
-            height={saturationBottom - saturationTop}
+            x={xFor(0)}
+            y={topPad - 20}
+            width={saturationEdge - xFor(0)}
+            height={rows.length * rowHeight + 20}
             fill="rgba(45, 95, 74, 0.10)"
           />
           <text
-            x={padding.left + 10}
-            y={saturationTop - 8}
+            x={xFor(0) + 8}
+            y={topPad - 28}
             fontSize="13"
             fill="rgba(45, 95, 74, 0.85)"
-            fontWeight="600"
+            fontWeight="700"
             letterSpacing="0.08em"
           >
             SATURATION FLOOR · &lt; 10% ERROR
           </text>
 
-          {yTicks.map((tick) => (
+          {/* Top axis labels */}
+          {xTicks.map((tick) => (
             <g key={tick}>
               <line
-                x1={padding.left}
-                y1={yFor(tick)}
-                x2={width - padding.right}
-                y2={yFor(tick)}
+                x1={xFor(tick)}
+                y1={topPad - 14}
+                x2={xFor(tick)}
+                y2={topPad + rows.length * rowHeight}
                 stroke="rgba(31, 26, 22, 0.08)"
                 strokeWidth="1"
               />
               <text
-                x={padding.left - 14}
-                y={yFor(tick) + 5}
-                textAnchor="end"
+                x={xFor(tick)}
+                y={topPad - 40}
+                textAnchor="middle"
                 fill="rgba(31, 26, 22, 0.7)"
-                fontSize="15"
+                fontSize="14"
               >
                 {tick}%
               </text>
             </g>
           ))}
-
           <text
-            x={24}
-            y={height / 2}
-            fill="rgba(31, 26, 22, 0.75)"
-            fontSize="13"
-            fontWeight="600"
-            letterSpacing="0.08em"
-            transform={`rotate(-90 24 ${height / 2})`}
+            x={width / 2}
+            y={topPad - 58}
             textAnchor="middle"
+            fontSize="12"
+            fontWeight="700"
+            letterSpacing="0.14em"
+            fill="rgba(31, 26, 22, 0.65)"
           >
-            % REMAINING ERROR (100 − score)
+            % REMAINING ERROR  (100 − score)
           </text>
 
-          {yearTicks.map((year) => (
-            <g key={year}>
-              <line
-                x1={xFor(year)}
-                y1={padding.top}
-                x2={xFor(year)}
-                y2={height - padding.bottom}
-                stroke="rgba(31, 26, 22, 0.06)"
-                strokeWidth="1"
-              />
-              <text
-                x={xFor(year)}
-                y={height - padding.bottom + 26}
-                textAnchor="middle"
-                fill="rgba(31, 26, 22, 0.78)"
-                fontSize="16"
-                fontWeight="600"
-              >
-                {year}
-              </text>
-            </g>
-          ))}
+          {/* One dumbbell per benchmark */}
+          {rows.map((r, i) => {
+            const y = topPad + i * rowHeight + rowHeight / 2;
+            const startErr = 100 - r.start.score;
+            const endErr = 100 - r.end.score;
+            const xStart = xFor(startErr);
+            const xEnd = xFor(endErr);
+            const years = r.end.year - r.start.year;
+            const deltaPts = (r.start.score - r.end.score) * -1; // negative = error fell
+            const relativeCut = ((startErr - endErr) / startErr) * 100;
 
-          <line
-            x1={padding.left}
-            y1={padding.top}
-            x2={padding.left}
-            y2={height - padding.bottom}
-            stroke="rgba(31, 26, 22, 0.3)"
-            strokeWidth="1.5"
-          />
-          <line
-            x1={padding.left}
-            y1={height - padding.bottom}
-            x2={width - padding.right}
-            y2={height - padding.bottom}
-            stroke="rgba(31, 26, 22, 0.3)"
-            strokeWidth="1.5"
-          />
-
-          {series.map((s) => {
-            const asError = s.points.map((p) => ({ year: p.year, err: 100 - p.score }));
-            const d = asError
-              .map(
-                (pt, i) =>
-                  `${i === 0 ? 'M' : 'L'} ${xFor(pt.year).toFixed(2)} ${yFor(pt.err).toFixed(2)}`,
-              )
-              .join(' ');
-            const first = asError[0];
-            const last = asError[asError.length - 1];
             return (
-              <g key={s.key}>
-                <path
-                  d={d}
-                  fill="none"
-                  stroke={s.color}
-                  strokeWidth="3.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
+              <g key={r.key}>
+                {/* Row background rule */}
+                <line
+                  x1={xFor(0)}
+                  y1={y}
+                  x2={xFor(scaleMax)}
+                  y2={y}
+                  stroke="rgba(31, 26, 22, 0.08)"
+                  strokeWidth="1"
                 />
-                {asError.map((pt) => (
-                  <circle
-                    key={pt.year}
-                    cx={xFor(pt.year)}
-                    cy={yFor(pt.err)}
-                    r={5}
-                    fill={s.color}
-                  >
-                    <title>{`${s.label} ${pt.year}: ${(100 - pt.err).toFixed(1)}% score / ${pt.err.toFixed(1)}% error`}</title>
-                  </circle>
-                ))}
+
+                {/* Left-gutter label */}
                 <text
-                  x={xFor(first.year) + 10}
-                  y={yFor(first.err) - 10}
-                  fill={s.color}
-                  fontSize="14"
-                  fontWeight="600"
-                >
-                  {first.err.toFixed(0)}%
-                </text>
-                <text
-                  x={xFor(last.year) + 14}
-                  y={yFor(last.err) + 5}
-                  fill={s.color}
-                  fontSize="17"
+                  x={axisLeft - 18}
+                  y={y - 4}
+                  textAnchor="end"
+                  fontSize="19"
                   fontWeight="700"
+                  fill="rgba(31, 26, 22, 0.9)"
                 >
-                  {s.label}
+                  {r.label}
                 </text>
                 <text
-                  x={xFor(last.year) + 14}
-                  y={yFor(last.err) + 24}
-                  fill={s.color}
-                  fontSize="13"
+                  x={axisLeft - 18}
+                  y={y + 18}
+                  textAnchor="end"
+                  fontSize="12"
                   fontStyle="italic"
-                  opacity="0.85"
+                  fill="rgba(31, 26, 22, 0.6)"
                 >
-                  {s.note} · {last.err.toFixed(1)}%
+                  {r.note}
+                </text>
+
+                {/* Connector (end → start, arrowhead toward start) */}
+                <line
+                  x1={xEnd}
+                  y1={y}
+                  x2={xStart}
+                  y2={y}
+                  stroke={r.color}
+                  strokeWidth="5"
+                  strokeLinecap="round"
+                  opacity="0.35"
+                />
+
+                {/* End dot — DARK, the current state, drawn LAST/ON TOP */}
+                <circle cx={xEnd} cy={y} r={11} fill={r.color} />
+                <text
+                  x={xEnd}
+                  y={y - 20}
+                  textAnchor="middle"
+                  fontSize="13"
+                  fontWeight="700"
+                  fill={r.color}
+                >
+                  {r.end.year} · {endErr.toFixed(1)}%
+                </text>
+
+                {/* Start dot — LIGHT (ring), where it began */}
+                <circle
+                  cx={xStart}
+                  cy={y}
+                  r={10}
+                  fill="rgba(255, 253, 249, 1)"
+                  stroke={r.color}
+                  strokeWidth="3"
+                />
+                <text
+                  x={xStart}
+                  y={y - 20}
+                  textAnchor="middle"
+                  fontSize="13"
+                  fontWeight="600"
+                  fill={r.color}
+                  opacity="0.75"
+                >
+                  {r.start.year} · {startErr.toFixed(0)}%
+                </text>
+
+                {/* Right-side summary */}
+                <text
+                  x={xFor(scaleMax) + 10}
+                  y={y + 5}
+                  fontSize="13"
+                  fontWeight="700"
+                  fill="rgba(31, 26, 22, 0.78)"
+                >
+                  −{relativeCut.toFixed(0)}% in {years}y
                 </text>
               </g>
             );
           })}
+
+          {/* Bottom axis ticks */}
+          {xTicks.map((tick) => (
+            <text
+              key={`b-${tick}`}
+              x={xFor(tick)}
+              y={topPad + rows.length * rowHeight + 22}
+              textAnchor="middle"
+              fill="rgba(31, 26, 22, 0.7)"
+              fontSize="14"
+            >
+              {tick}%
+            </text>
+          ))}
+
+          {/* Legend strip */}
+          <g transform={`translate(${axisLeft}, ${height - 18})`}>
+            <circle cx={0} cy={0} r={7} fill="rgba(255, 253, 249, 1)" stroke="rgba(31,26,22,0.55)" strokeWidth="2" />
+            <text x={14} y={4} fontSize="12" fill="rgba(31, 26, 22, 0.7)">
+              starting year
+            </text>
+            <circle cx={150} cy={0} r={8} fill="rgba(31, 26, 22, 0.75)" />
+            <text x={166} y={4} fontSize="12" fill="rgba(31, 26, 22, 0.7)">
+              most recent score
+            </text>
+          </g>
         </svg>
 
         <SourceLine
