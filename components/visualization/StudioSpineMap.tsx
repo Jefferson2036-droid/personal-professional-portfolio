@@ -6,57 +6,65 @@ const spine = [
   {
     course: 'IS117',
     year: 'Year 1',
-    title: 'Interface and web fluency',
+    title: 'Web Development and Inquiry',
     stage: 'Foundation',
-    outcome: 'Make work visible through pages, interfaces, and early product surfaces.',
+    status: 'approved',
+    outcome: 'Make work visible through the web while learning to ask good questions of AI, stakeholders, data, and self.',
   },
   {
     course: 'IS218',
     year: 'Year 2',
-    title: 'Application delivery',
+    title: 'Application Delivery and Integration',
     stage: 'Build',
-    outcome: 'Move from pages to real applications with user flows, logic, and integration pressure.',
+    status: 'proposed',
+    outcome: 'Move from pages to running applications: user flows, logic, APIs, and integration under real constraints.',
   },
   {
     course: 'IS265',
     year: 'Year 2',
-    title: 'Systems and organizational context',
+    title: 'Systems, Organizations, and AI Context',
     stage: 'Foundation',
-    outcome: 'Read institutions, workflows, actors, and constraints, not isolated assignments.',
+    status: 'proposed',
+    outcome: 'Read institutions, workflows, actors, and constraints — the human systems AI lives inside.',
   },
   {
     course: 'IS331',
     year: 'Year 3',
-    title: 'Data and retrieval structure',
+    title: 'Data Models and Retrieval Architecture',
     stage: 'Build',
-    outcome: 'Learn the data models, schemas, and retrieval structure enterprise AI systems depend on.',
+    status: 'proposed',
+    outcome: 'Design the data models, schemas, and retrieval structures enterprise AI systems depend on.',
   },
   {
     course: 'IS390',
     year: 'Year 3',
-    title: 'Requirements and workflow design',
+    title: 'Specification, Evaluation, and Human-in-the-Loop Design',
     stage: 'Translate',
-    outcome: 'Translate ambiguity into specs, acceptance criteria, and human-in-the-loop logic.',
+    status: 'proposed',
+    outcome: 'Translate ambiguity into specs, acceptance criteria, evaluation harnesses, and human oversight.',
   },
   {
     course: 'IS425',
     year: 'Year 4',
-    title: 'Enterprise AI infrastructure',
+    title: 'Enterprise AI Infrastructure',
     stage: 'Deploy',
+    status: 'approved',
     outcome: 'Bring the stack together: deployment patterns, infrastructure, governance, capstone readiness.',
   },
   {
     course: 'IS465',
     year: 'Year 4',
-    title: 'Analytics and value measurement',
+    title: 'Analytics, Instrumentation, and Value Measurement',
     stage: 'Translate',
-    outcome: 'Connect data work to performance, instrumentation, and enterprise value.',
+    status: 'proposed',
+    outcome: 'Connect data work to performance, instrumentation, and measurable enterprise value.',
   },
   {
     course: 'IS480',
     year: 'Year 4',
-    title: 'Data-centric AI and evaluation',
+    title: 'Data-Centric AI and Evaluation',
     stage: 'Apply',
+    status: 'approved',
     outcome: 'Work directly with model behavior, data quality, and evaluation-oriented AI systems practice.',
   },
 ] as const;
@@ -96,6 +104,11 @@ export function StudioSpineMap() {
             <h3 className="studio-spine-map__course">{item.course}</h3>
             <p className="studio-spine-map__title">{item.title}</p>
             <p className="studio-spine-map__outcome">{item.outcome}</p>
+            <span
+              className={`studio-spine-map__status studio-spine-map__status--${item.status}`}
+            >
+              {item.status === 'approved' ? 'Approved' : 'Proposed title'}
+            </span>
           </article>
         ))}
       </div>

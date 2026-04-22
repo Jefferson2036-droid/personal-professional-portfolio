@@ -1659,6 +1659,32 @@ body.is-middle-slide {
   line-height: 1.55;
 }
 
+.studio-spine-map__status {
+  align-self: flex-start;
+  margin-top: 0.1rem;
+  padding: 0.16rem 0.5rem;
+  border-radius: 999px;
+  font-family: var(--font-sans), sans-serif;
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.studio-spine-map__status--approved {
+  background: rgba(45, 95, 74, 0.12);
+  color: #2d5f4a;
+  box-shadow: inset 0 0 0 1px rgba(45, 95, 74, 0.25);
+}
+
+.studio-spine-map__status--proposed {
+  background: rgba(31, 26, 22, 0.04);
+  color: rgba(31, 26, 22, 0.55);
+  box-shadow: inset 0 0 0 1px rgba(31, 26, 22, 0.14);
+  font-style: italic;
+  letter-spacing: 0.1em;
+}
+
 @media (max-width: 900px) {
   .site-footer__inner--presentation,
   .site-footer__inner--standard {
