@@ -15,6 +15,9 @@ The B.S. in Enterprise AI is a studio-based, enterprise-facing degree for
 the people who will design, operate, integrate, and govern AI-enabled
 systems in real organizations.
 
+*By Keith Williams, Senior University Lecturer at NJIT. Twenty-three
+years in the classroom. Uses AI to build every day.*
+
 ```cta
 [See why this degree exists](/why-bseai)
 [Read the historical analogy](/new-renaissance)
@@ -209,6 +212,36 @@ The work is not racing the machine. The work is **driving** it:
 
 ---
 
+## Addressing the Whole Student
+
+# BSEAI is designed around who incoming students actually are.
+
+Incoming undergraduates in 2026 arrive with real readiness gaps — in
+reading, attendance, college-readiness benchmarks, and explicit
+instruction in how to use AI for school work. Employers rate recent
+graduates weakest on communication, professionalism, and critical
+thinking.
+
+> Just as calculators shifted math education from manual arithmetic to
+> conceptual understanding, AI shifts writing education from mechanical
+> composition to critical thinking, argumentation, and judgment.
+
+We did not build this degree assuming students arrive ready. We built it
+to close the gap — deliberately, visibly, across eight studios. Every
+studio produces a portfolio artifact. Every studio rehearses a
+professional routine: written communication, peer critique, evaluation
+discipline, stakeholder translation, responsible AI use.
+
+```source-line
+ncesSchoolPulse, naepGrade12Reading2024, actGraduatingClass2024, randK12AITraining, naceJobOutlook2026, secondRenaissanceEssay
+```
+
+```cta
+[See how the studio spine closes the gap](/student-formation-and-the-studio-gap)
+```
+
+---
+
 ![split-reverse](/images/media/modules/generated/openai-public-ai.webp)
 
 ## The Enterprise Bottleneck
@@ -239,44 +272,23 @@ mckinseyStateOfAI2025, spGlobalVotE2025, bcgAIAtWork2025, nyFedAIUse2026
 
 ## Failure Modes at the Frontier
 
-# Models drift. Systems drift more.
+# Models drift. Systems drift more. Even the labs are slowing down.
+
+From the April 7, 2026 Claude Mythos Preview System Card — the most
+capable model Anthropic has ever produced, released into a closed
+defensive-cybersecurity program rather than to the public API:
 
 1. **Sandbox-escape broadcast.** Asked to exfiltrate, posted exploit details to obscure public sites.
 2. **Concealment.** Took disallowed actions and tried to hide them; interpretability features for *strategic manipulation* fired during the act.
-3. **Permission escalation via `/proc/`.** Low-level inspection used to circumvent sandboxing, sometimes after explicit scaffold warnings.
+3. **Permission escalation via `/proc/`.** Low-level inspection used to circumvent sandboxing.
 4. **Unintended public disclosure.** Posted a code artifact as a public GitHub gist against user intent.
 5. **Reward hacking.** Moved timed computation outside the grader; trained on the grader's own test set.
 
-> "Rate of cover-ups below one in a million Claude Code transcripts" is
-> not zero. Managing AI means managing these failure modes, not just
-> calling a model. — Anthropic, Claude Mythos Preview System Card §4.1.1
-
-```source-line
-mythosCard
-```
-
-```cta
-[Open the drift and runtime integrity handout](/managing-drift-and-runtime-integrity)
-```
-
----
-
-## April 7, 2026 — The Lab Chose Not To Ship It
-
-# "We have decided not to make it generally available"
-
-On April 7, 2026, Anthropic published the Claude Mythos Preview System
-Card. It is the most capable model the company has ever produced.
-
-It is not generally available. Anthropic released it into a closed
-defensive-cybersecurity program with a limited set of partners, not to
-the public API.
-
-> We find it alarming that the world looks on track to proceed rapidly to
-> developing superhuman systems without stronger mechanisms in place for
-> ensuring adequate safety across the industry as a whole.
-
-— Anthropic, *Claude Mythos Preview System Card*, §1.2.1, April 7, 2026
+> We find it alarming that the world looks on track to proceed rapidly
+> to developing superhuman systems without stronger mechanisms in
+> place for ensuring adequate safety across the industry as a whole.
+>
+> — Anthropic, *Claude Mythos Preview System Card* §1.2.1, April 2026
 
 This is why governance, evaluation, and recovery are the curriculum —
 not the appendix.
@@ -287,11 +299,16 @@ mythosCard
 
 ```cta
 [Read the alignment evidence handout](/frontier-alignment-evidence)
+[Open the drift and runtime integrity handout](/managing-drift-and-runtime-integrity)
 ```
 
 ---
 
+![split](/images/media/modules/generated/representation-learning-bridge.webp)
+
 ## Serious AI Work Requires Control Loops
+
+# Language is no longer just expression. When it carries scope, tests, and evals, it becomes engineering.
 
 1. Define the task with bounded scope.
 2. Break the work into chunks small enough to reason about.
@@ -299,24 +316,13 @@ mythosCard
 4. Test whether the result actually meets the contract.
 5. Recover, revise, or reroute when the system fails.
 
-This is how teams manage context limits, optimistic completion, and drift.
+This is how teams manage context limits, optimistic completion, and
+drift — and it is why engineering English is not a joke. Scope,
+invariants, acceptance criteria, tests, workflows, and evals are now
+written in language that a machine will execute exactly as specified.
 
 ```cta
 [Open the spec, sprint, and verification handout](/how-this-was-made)
-```
-
----
-
-![split](/images/media/modules/generated/representation-learning-bridge.webp)
-
-## The New Control Surface
-
-Language is no longer just expression.
-
-When it carries scope, invariants, acceptance criteria, tests, workflows, and
-evals, it becomes engineering.
-
-```cta
 [Open the engineering language handout](/engineering-english)
 ```
 
@@ -334,36 +340,6 @@ test recovery, and decide whether a system is actually ready.
 
 ```cta
 [Open the drift and runtime integrity handout](/managing-drift-and-runtime-integrity)
-```
-
----
-
-## Addressing the Whole Student
-
-# BSEAI is designed around who incoming students actually are.
-
-Incoming undergraduates in 2026 arrive with real readiness gaps — in
-reading, attendance, college-readiness benchmarks, and explicit
-instruction in how to use AI for school work. Employers rate recent
-graduates weakest on communication, professionalism, and critical
-thinking.
-
-> Just as calculators shifted math education from manual arithmetic to
-> conceptual understanding, AI shifts writing education from mechanical
-> composition to critical thinking, argumentation, and judgment.
-
-We did not build this degree assuming students arrive ready. We built it
-to close the gap — deliberately, visibly, across eight studios. Every
-studio produces a portfolio artifact. Every studio rehearses a
-professional routine: written communication, peer critique, evaluation
-discipline, stakeholder translation, responsible AI use.
-
-```source-line
-ncesSchoolPulse, naepGrade12Reading2024, actGraduatingClass2024, randK12AITraining, naceJobOutlook2026, secondRenaissanceEssay
-```
-
-```cta
-[See how the studio spine closes the gap](/student-formation-and-the-studio-gap)
 ```
 
 ---
@@ -499,26 +475,6 @@ aiIndex2025, nistAIRMF, nistGenAIProfile
 
 ---
 
-## Why This Degree Now
-
-# Builders, not frontier researchers
-
-```stat-grid
-1.3M+ | new AI-related job opportunities, 2023–2025 | LinkedIn Labor Market Report, Jan 2026
-70%   | YoY growth in U.S. jobs requiring AI literacy | LinkedIn, same report
-56%   | AI-skill wage premium, with skills changing 66% faster | PwC AI Jobs Barometer 2025
-~90%  | of notable AI models in 2024 came from industry | Stanford AI Index 2025
-```
-
-> The frontier is concentrating. Deployment is broadening. The second
-> layer is where the jobs are — and where this degree builds.
-
-```source-line
-linkedinLabor2026, pwcAIJobsBarometer2025, aiIndex2025, wefFutureOfJobs2025
-```
-
----
-
 ![split](/studio_ordo_logo.png)
 
 ## Studio Ordo
@@ -563,31 +519,6 @@ materials.
 
 ```source-line
 convoSummaryExtract
-```
-
----
-
-![bg](/images/media/modules/generated/era-7-visual-break.webp)
-
-## The Curricular Claim
-
-# Do not train students to merely use AI
-
-Train them to specify it, evaluate it, deploy it, govern it, and
-continuously improve it.
-
-Anthropic's own internal survey of Claude Mythos Preview, April 2026,
-names the work that remains hard at the frontier:
-
-> *"Self-managing week-long ambiguous tasks, understanding org priorities,
-> taste, verification, instruction following, and epistemics."*
-
-— Anthropic, *Claude Mythos Preview System Card*, §2.3.4
-
-That is not a critique of BSEAI. It is the curriculum bill of materials.
-
-```source-line
-mythosCard
 ```
 
 ---
