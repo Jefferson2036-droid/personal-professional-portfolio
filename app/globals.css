@@ -62,6 +62,36 @@
   --slide-line-display: 0.96;
   --slide-max-measure: 62ch;
 
+  /* ---------- Shared UI tokens (radius / glass / shadows / tints) ---------- */
+  --radius-sm: 6px;
+  --radius-md: 14px;
+  --radius-lg: 1rem;
+  --radius-pill: 999px;
+
+  --blur-glass: blur(8px);
+  --blur-overlay: blur(6px);
+
+  /* Cream on dark: the single alpha ramp used by every dark-surface UI. */
+  --cream-12: rgba(255, 248, 239, 0.12);
+  --cream-22: rgba(255, 248, 239, 0.22);
+  --cream-35: rgba(255, 248, 239, 0.35);
+  --cream-50: rgba(255, 248, 239, 0.50);
+  --cream-60: rgba(255, 248, 239, 0.60);
+  --cream-82: rgba(255, 248, 239, 0.82);
+  --cream-92: rgba(255, 248, 239, 0.92);
+  --cream-96: rgba(255, 248, 239, 0.96);
+
+  /* Ink on light: the single alpha ramp used by dark pill/button surfaces. */
+  --ink-34: rgba(18, 18, 18, 0.34);
+  --ink-52: rgba(18, 18, 18, 0.52);
+  --ink-60: rgba(18, 18, 18, 0.60);
+  --ink-82: rgba(18, 18, 18, 0.82);
+
+  --shadow-sm: 0 12px 30px rgba(0, 0, 0, 0.35);
+  --shadow-md: 0 14px 30px rgba(0, 0, 0, 0.22);
+  --shadow-md-focus: 0 14px 30px rgba(0, 0, 0, 0.32);
+  --shadow-lg: 0 24px 60px rgba(0, 0, 0, 0.45);
+
   /* Font Metrics */
   --font-cap-height: 0.727;
   --font-ascender: 0.971;
@@ -1031,26 +1061,26 @@ a:hover {
   align-items: baseline;
   gap: 0.28rem;
   padding: 0.35rem 0.55rem;
-  border-radius: 999px;
-  background: rgba(18, 18, 18, 0.34);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  color: rgba(255, 248, 239, 0.92);
-  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.22);
+  border-radius: var(--radius-pill);
+  background: var(--ink-34);
+  backdrop-filter: var(--blur-glass);
+  -webkit-backdrop-filter: var(--blur-glass);
+  color: var(--cream-92);
+  box-shadow: var(--shadow-md);
   cursor: text;
   transition: background 160ms ease, box-shadow 160ms ease;
 }
 
 .presentation-progress__count:hover,
 .presentation-progress__count:focus-visible {
-  background: rgba(18, 18, 18, 0.52);
+  background: var(--ink-52);
   outline: none;
-  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.32), 0 0 0 1px rgba(255, 248, 239, 0.35);
+  box-shadow: var(--shadow-md-focus), 0 0 0 1px var(--cream-35);
 }
 
 .presentation-progress__count--editing {
-  background: rgba(18, 18, 18, 0.6);
-  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.32), 0 0 0 1px rgba(255, 248, 239, 0.5);
+  background: var(--ink-60);
+  box-shadow: var(--shadow-md-focus), 0 0 0 1px var(--cream-50);
 }
 
 .presentation-progress__count-input {
@@ -2071,7 +2101,18 @@ a:hover {
   line-height: 1.5;
 }
 
-/* ---------- Presentation keyboard shortcuts / palette / help ---------- */
+/* ---------- Presentation keyboard shortcuts / palette / help ----------
+   Dark-surface UIs share a small base (.presentation-surface) and one
+   label/input/kbd typography idiom, keyed on the cream-* and ink-* tokens. */
+
+.presentation-surface {
+  background: rgba(24, 22, 20, 0.96);
+  color: var(--cream-96);
+  border: 1px solid var(--cream-12);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+  font-family: var(--font-sans), sans-serif;
+}
 
 .presentation-number-buffer {
   position: fixed;
@@ -2080,32 +2121,26 @@ a:hover {
   transform: translateX(-50%);
   z-index: 70;
   padding: 0.5rem 0.9rem;
-  border-radius: 999px;
-  background: rgba(18, 18, 18, 0.82);
+  border-radius: var(--radius-pill);
+  background: var(--ink-82);
   color: rgba(255, 248, 239, 0.95);
   font-family: var(--font-sans), sans-serif;
   font-size: 0.82rem;
   letter-spacing: 0.04em;
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
+  box-shadow: var(--shadow-sm);
+  backdrop-filter: var(--blur-overlay);
+  -webkit-backdrop-filter: var(--blur-overlay);
 }
-.presentation-number-buffer strong {
-  font-weight: 700;
-  margin: 0 0.15rem;
-}
-.presentation-number-buffer span {
-  opacity: 0.7;
-  margin-left: 0.3rem;
-}
+.presentation-number-buffer strong { font-weight: 700; margin: 0 0.15rem; }
+.presentation-number-buffer span { opacity: 0.7; margin-left: 0.3rem; }
 
 .presentation-overlay {
   position: fixed;
   inset: 0;
   z-index: 80;
   background: rgba(12, 10, 8, 0.58);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: var(--blur-overlay);
+  -webkit-backdrop-filter: var(--blur-overlay);
   display: flex;
   align-items: flex-start;
   justify-content: center;
@@ -2118,19 +2153,30 @@ a:hover {
   to { opacity: 1; }
 }
 
+.presentation-palette,
+.presentation-help {
+  /* inherits .presentation-surface via composition in markup, but we can't
+     change the TSX casually; replicate the base here instead. */
+  background: rgba(24, 22, 20, 0.96);
+  color: var(--cream-96);
+  border: 1px solid var(--cream-12);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+  font-family: var(--font-sans), sans-serif;
+}
+
 .presentation-palette {
   width: min(560px, 100%);
-  background: rgba(24, 22, 20, 0.96);
-  color: rgba(255, 248, 239, 0.96);
-  border-radius: 14px;
   padding: 1.25rem 1.35rem 1.1rem;
-  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
-  border: 1px solid rgba(255, 248, 239, 0.12);
+}
+
+.presentation-help {
+  width: min(640px, 100%);
+  padding: 1.5rem 1.75rem 1.4rem;
 }
 
 .presentation-palette__label {
   display: block;
-  font-family: var(--font-sans), sans-serif;
   font-size: 0.72rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;
@@ -2142,33 +2188,20 @@ a:hover {
   width: 100%;
   background: transparent;
   border: none;
-  border-bottom: 1px solid rgba(255, 248, 239, 0.22);
+  border-bottom: 1px solid var(--cream-22);
   color: inherit;
-  font-family: var(--font-sans), sans-serif;
+  font-family: inherit;
   font-size: 1.35rem;
   padding: 0.35rem 0 0.5rem;
   outline: none;
 }
 
-.presentation-palette__input:focus {
-  border-bottom-color: rgba(255, 248, 239, 0.6);
-}
+.presentation-palette__input:focus { border-bottom-color: var(--cream-60); }
 
 .presentation-palette__hint {
   margin-top: 0.7rem;
-  font-family: var(--font-sans), sans-serif;
   font-size: 0.78rem;
-  color: rgba(255, 248, 239, 0.5);
-}
-
-.presentation-help {
-  width: min(640px, 100%);
-  background: rgba(24, 22, 20, 0.97);
-  color: rgba(255, 248, 239, 0.96);
-  border-radius: 14px;
-  padding: 1.5rem 1.75rem 1.4rem;
-  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
-  border: 1px solid rgba(255, 248, 239, 0.12);
+  color: var(--cream-50);
 }
 
 .presentation-help__header {
@@ -2188,15 +2221,13 @@ a:hover {
 .presentation-help__close {
   background: transparent;
   border: none;
-  color: rgba(255, 248, 239, 0.6);
+  color: var(--cream-60);
   font-size: 1.6rem;
   line-height: 1;
   padding: 0 0.2rem;
   cursor: pointer;
 }
-.presentation-help__close:hover {
-  color: rgba(255, 248, 239, 1);
-}
+.presentation-help__close:hover { color: rgba(255, 248, 239, 1); }
 
 .presentation-help__list {
   margin: 0;
@@ -2222,28 +2253,26 @@ a:hover {
 }
 
 .presentation-help__keys kbd {
-  font-family: var(--font-sans), sans-serif;
+  font-family: inherit;
   font-size: 0.72rem;
   letter-spacing: 0.04em;
   padding: 0.2rem 0.45rem;
-  border-radius: 6px;
+  border-radius: var(--radius-sm);
   background: rgba(255, 248, 239, 0.08);
   border: 1px solid rgba(255, 248, 239, 0.18);
-  color: rgba(255, 248, 239, 0.92);
+  color: var(--cream-92);
 }
 
 .presentation-help__desc {
   margin: 0;
-  font-family: var(--font-sans), sans-serif;
   font-size: 0.88rem;
-  color: rgba(255, 248, 239, 0.82);
+  color: var(--cream-82);
 }
 
 .presentation-help__footnote {
   margin: 1rem 0 0;
-  font-family: var(--font-sans), sans-serif;
   font-size: 0.78rem;
-  color: rgba(255, 248, 239, 0.5);
+  color: var(--cream-50);
 }
 
 @media (max-width: 640px) {
