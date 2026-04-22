@@ -326,6 +326,23 @@ a:hover {
   z-index: 60;
   padding: 0;
   pointer-events: none;
+  /* Gated by PresentationFooterGate: footer is chrome for the first and
+     last slide only; middle slides reclaim the vertical real estate. */
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 180ms ease, transform 220ms ease;
+}
+
+body.is-middle-slide .site-footer--presentation {
+  opacity: 0;
+  transform: translateY(1rem);
+  pointer-events: none;
+}
+
+/* Middle slides don't need footer safe-area; reclaim that vertical space for
+   content. Density slides (chart rows, 5-bullet lists) fit without clipping. */
+body.is-middle-slide {
+  --presentation-footer-safe: 1.5rem;
 }
 
 .site-footer__inner--presentation,

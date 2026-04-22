@@ -7,6 +7,7 @@ import { splitMarkdownIntoSlides, SlideNode } from "../../lib/content/parser";
 import { ParallaxBackground } from "../motion/ParallaxBackground";
 import { PresentationProgress } from "../motion/PresentationProgress";
 import { PresentationShortcuts } from "../motion/PresentationShortcuts";
+import { PresentationFooterGate } from "../motion/PresentationFooterGate";
 import { PresentationSlide } from "../motion/PresentationSlide";
 import { SceneCard } from "../motion/SceneCard";
 import { SiteFooter } from "../site-footer";
@@ -60,6 +61,7 @@ export function PresentationLayout({ page }: LayoutProps) {
     <main className="presentation-main" style={{ width: '100%', position: 'relative' }}>
       <PresentationProgress slidesCount={slides.length} />
       <PresentationShortcuts slidesCount={slides.length} />
+      <PresentationFooterGate slidesCount={slides.length} />
 
       {slides.map((slide, index) => {
         const hasBackground = !!slide.backgroundSrc;

@@ -45,76 +45,98 @@ systems in real organizations.
 
 ---
 
-## The Benchmark Record, 2023–2026
+## The Yardsticks We'll Be Looking At
 
-# Frontier capability rose across five different shapes of work
+# Three standardized tests, three different shapes of work
+
+A *benchmark* in AI is a fixed set of tasks with an automatic grader —
+the same test every lab submits to, so scores are comparable over time.
+Three of them tell most of the story of the last three years.
+
+- **SWE-bench Verified** — pull a real bug from a real open-source
+  repository. Write a patch that passes the project's own test suite.
+  *Software engineering, not coursework.*
+- **GPQA Diamond** — PhD-qualifying questions in physics, chemistry,
+  biology. Written by domain experts. Unanswerable by a strong
+  non-specialist even with the open internet. *Hard-science reasoning.*
+- **MMLU** — the classic broad-knowledge exam: 57 subjects from
+  mechanics to US foreign policy. *What an educated generalist knows.*
+  Near-saturated since 2023 — our leading indicator.
+
+> These are not AI's opinion of itself. They are third-party tests that
+> labs cannot re-run privately to inflate a number.
+
+```source-line
+sweBenchVerified, sweBenchSite, gpqaPaper, aiIndex2025
+```
+
+---
+
+## What Just Happened, 2023–2026
+
+# Three very different kinds of work all ended up in the same place
 
 ```model-progress
 ```
 
-Software engineering, hard-science reasoning, coding, knowledge QA, and
-multimodal reasoning all moved sharply between 2023 and 2026. The curves
-on the left used to be where we said "AI can't do that yet."
+Each row is one benchmark. Each bar shows how far its failure rate
+fell. The green band on the left is *saturation* — below 10% remaining
+error, researchers consider the test essentially exhausted. All three
+are now there.
 
 ```source-line
-benchmarksLocal, mythosCard, sweBenchVerified, aiIndex2025
-```
-
-```cta
-[Open the benchmark research handout](/model-progress-research)
+benchmarksLocal, mythosCard, sweBenchVerified, gpqaPaper, aiIndex2025
 ```
 
 ---
 
-## What the Benchmarks Actually Measure
+## This Is Not The Usual Hype Cycle
 
-# Translated out of the acronyms
+# One benchmark saturates — blame the test. Three saturate together — that explanation runs out.
 
-- **SWE-bench Verified — can it ship a real fix?** Pull a real bug from a
-  real open-source repository. Read the codebase. Write a patch that
-  passes the project's own tests. In 2023, models solved about one in
-  three. Today, more than nine in ten.
-- **GPQA Diamond — can it answer a PhD-level science question?** Written
-  by domain experts. Unanswerable by a strong non-specialist even with
-  the open internet. In 2023, 39%. Today, 94.5%.
-- **MMLU / HumanEval — does it know what a bright generalist knows and
-  can it write routine code?** Both effectively solved. Labs are quietly
-  dropping them from headline reporting.
+Benchmarks have been beaten before. ImageNet in 2015. Atari in 2018.
+Each time, researchers correctly said: *the test was narrower than we
+thought.*
 
-> The useful question is not "what score did it get?" It is *"what kind of
-> work does this benchmark stand in for, and did it just become
-> table-stakes?"*
+What is new in 2023–2026:
+
+- The three benchmarks cover **unrelated shapes of work** — writing
+  code, reasoning about science, recalling broad knowledge.
+- They saturated **simultaneously**, on the same generation of models.
+- The work they stand in for is **not narrow.** A patch that passes a
+  real open-source repo's own tests is not a toy.
+
+> When one measure moves, something changed about measurement. When
+> three unrelated measures move together in three years, something
+> changed about the work itself.
 
 ```source-line
-sweBenchSite, sweBenchVerified, gpqaPaper, mythosCard
+benchmarksLocal, aiIndex2025, assistantInterpretation
 ```
 
 ---
 
-## What the Curve Is Really Saying
+## What the Scores Don't Mean
 
-# Failure rate cut ~90% across three shapes of work, in under three years
+# 94% is not "solved." It's "the test ran out of signal."
 
-Not one capability, not one lab, not one metric — three independent
-measures of useful work, moving together.
+A benchmark score answers one question: *did the model pass this test.*
+It does not answer: *can a real team run this work in production.*
 
-- **SWE-bench Verified** — 33% → 94%. Software-engineering failure rate cut ~91%.
-- **GPQA Diamond** — 39% → 94.5%. Hard-science reasoning failure rate cut ~91%.
-- **HumanEval** — 67% → 94%. Routine-coding failure rate cut ~81%.
+- **Tests measure test-taking.** A patch that passes a hidden unit test
+  is not the same as a patch a team would merge.
+- **Real work has context the test doesn't** — stakeholders, risk,
+  scope, runtime cost, who is accountable when it breaks.
+- **The scarce work is now governance, not generation.** Specify,
+  evaluate, deploy, and hold accountable: that is what a professional
+  does with a near-saturated tool.
 
-> Benchmark saturation arrives before real-world task saturation. A move
-> from 94% to 97% on a test is not "the domain is solved." It is "the
-> test no longer tells you anything."
-
-The normalized rate analysis (points per year, failure-rate reduction,
-multiplicative gain) and the three-regime breakdown live in the handout.
+> For a curriculum, this flips the target. The question is no longer
+> *can you do the work by hand?* It is *can you run the system that
+> does the work, and vouch for its output?*
 
 ```source-line
-benchmarksLocal, mythosCard, sweBenchSite, gpqaPaper, assistantInterpretation
-```
-
-```cta
-[See the rate analysis handout](/model-progress-research)
+mythosCard, assistantInterpretation
 ```
 
 ---

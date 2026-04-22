@@ -12,15 +12,14 @@ import { SourceLine } from '../ui/SourceLine';
  *   2. Two of them had to fall a very long way to get there; a third was
  *      already close — the leading indicator.
  *
- * A line chart forces those into one crowded y-axis; endpoint labels collide
- * where the whole point of the slide is "they end up in the same place." A
- * dumbbell gives each benchmark its own row, makes the distance-fallen the
- * horizontal length of the bar, and renders convergence as three dark dots
- * stacked against the saturation floor on the left.
+ * A line chart forces those into one crowded y-axis and labels pile up at
+ * the endpoints. A dumbbell gives each benchmark its own row, makes
+ * distance-fallen the horizontal length of the bar, and renders convergence
+ * as three dark dots stacked against the saturation floor on the left.
  *
- * Axis: % REMAINING ERROR (100 − score), 0% at the left, 70% at the right.
- * Row: start-dot (light, starting year) → connector → end-dot (dark, end year).
- * Shaded band 0–10% = "saturation floor".
+ * Label placement avoids collisions: START label ABOVE the ring, END label
+ * BELOW the dot. Even when the two endpoints are close (MMLU), labels never
+ * overlap.
  */
 
 type Endpoint = { year: number; score: number };
@@ -34,13 +33,11 @@ interface Row {
   end: Endpoint;
 }
 
-// Starting score = first publicly reported frontier score in our window.
-// Ending score = most recent reported score. Full table: /model-progress-research.
 const rows: Row[] = [
   {
     key: 'swe-verified',
     label: 'SWE-bench Verified',
-    note: 'software engineering — agents resolving real GitHub issues',
+    note: 'software engineering — agents fixing real GitHub issues',
     color: '#8a3a1f',
     start: { year: 2024, score: 33.2 },
     end:   { year: 2026, score: 93.9 },
@@ -48,7 +45,7 @@ const rows: Row[] = [
   {
     key: 'gpqa',
     label: 'GPQA Diamond',
-    note: 'hard-science reasoning — graduate-level physics, chem, bio',
+    note: 'hard-science reasoning — graduate physics, chem, bio',
     color: '#6f4a8f',
     start: { year: 2023, score: 39.0 },
     end:   { year: 2026, score: 94.5 },
@@ -56,7 +53,7 @@ const rows: Row[] = [
   {
     key: 'mmlu',
     label: 'MMLU',
-    note: 'broad knowledge QA — the leading indicator, near saturation in 2023',
+    note: 'broad knowledge QA — leading indicator, near-saturated in 2023',
     color: '#2d5f4a',
     start: { year: 2023, score: 86.4 },
     end:   { year: 2025, score: 93.4 },
@@ -64,14 +61,14 @@ const rows: Row[] = [
 ];
 
 // Geometry
-const width = 940;
-const rowHeight = 120;
-const topPad = 84;
-const bottomPad = 48;
+const width = 960;
+const rowHeight = 140;          // bumped from 120 — more breathing room
+const topPad = 96;
+const bottomPad = 56;
 const height = topPad + rows.length * rowHeight + bottomPad;
 
-const axisLeft = 240;   // leaves room for labels in the left gutter
-const axisRight = 60;
+const axisLeft = 260;           // left gutter for benchmark names
+const axisRight = 110;          // right gutter for "−XX% in Yy" summary
 const scaleMin = 0;
 const scaleMax = 70;
 
@@ -86,15 +83,15 @@ export function ModelProgressResearch() {
   return (
     <div
       className="gpu-accelerated"
-      style={{ width: '100%', margin: '1.25rem 0 0', display: 'grid', justifyItems: 'center' }}
+      style={{ width: '100%', margin: '1rem 0 0', display: 'grid', justifyItems: 'center' }}
     >
       <div
         className="model-progress-panel"
         style={{
           width: 'min(100%, 80rem)',
           display: 'grid',
-          gap: '0.9rem',
-          padding: '1.5rem 1.75rem 1.25rem',
+          gap: '0.75rem',
+          padding: '1.25rem 1.5rem 1rem',
         }}
       >
         <svg
@@ -105,7 +102,7 @@ export function ModelProgressResearch() {
           aria-label="Three benchmarks of different kinds of work collapsed from 14, 61, and 67 percent remaining error to between 5.5 and 6.6 percent — all landing inside the under-10-percent saturation band."
           style={{ overflow: 'visible' }}
         >
-          {/* Saturation band — 0 to 10% remaining error */}
+          {/* Saturation band */}
           <rect
             x={xFor(0)}
             y={topPad - 20}
@@ -114,22 +111,45 @@ export function ModelProgressResearch() {
             fill="rgba(45, 95, 74, 0.10)"
           />
           <text
-            x={xFor(0) + 8}
-            y={topPad - 28}
-            fontSize="13"
-            fill="rgba(45, 95, 74, 0.85)"
+            x={xFor(0) + 6}
+            y={topPad - 54}
+            fontSize="12"
+            fill="rgba(45, 95, 74, 0.9)"
             fontWeight="700"
             letterSpacing="0.08em"
           >
-            SATURATION FLOOR · &lt; 10% ERROR
+            SATURATION FLOOR
+          </text>
+          <text
+            x={xFor(0) + 6}
+            y={topPad - 38}
+            fontSize="11"
+            fill="rgba(45, 95, 74, 0.75)"
+            fontWeight="600"
+            letterSpacing="0.04em"
+          >
+            &lt; 10% ERROR
           </text>
 
-          {/* Top axis labels */}
+          {/* Axis title (top) */}
+          <text
+            x={(axisLeft + (width - axisRight)) / 2}
+            y={topPad - 74}
+            textAnchor="middle"
+            fontSize="12"
+            fontWeight="700"
+            letterSpacing="0.16em"
+            fill="rgba(31, 26, 22, 0.55)"
+          >
+            % REMAINING ERROR  (100 − score)
+          </text>
+
+          {/* Top ticks */}
           {xTicks.map((tick) => (
-            <g key={tick}>
+            <g key={`t-${tick}`}>
               <line
                 x1={xFor(tick)}
-                y1={topPad - 14}
+                y1={topPad - 12}
                 x2={xFor(tick)}
                 y2={topPad + rows.length * rowHeight}
                 stroke="rgba(31, 26, 22, 0.08)"
@@ -137,28 +157,17 @@ export function ModelProgressResearch() {
               />
               <text
                 x={xFor(tick)}
-                y={topPad - 40}
+                y={topPad - 18}
                 textAnchor="middle"
                 fill="rgba(31, 26, 22, 0.7)"
-                fontSize="14"
+                fontSize="13"
               >
                 {tick}%
               </text>
             </g>
           ))}
-          <text
-            x={width / 2}
-            y={topPad - 58}
-            textAnchor="middle"
-            fontSize="12"
-            fontWeight="700"
-            letterSpacing="0.14em"
-            fill="rgba(31, 26, 22, 0.65)"
-          >
-            % REMAINING ERROR  (100 − score)
-          </text>
 
-          {/* One dumbbell per benchmark */}
+          {/* Dumbbells */}
           {rows.map((r, i) => {
             const y = topPad + i * rowHeight + rowHeight / 2;
             const startErr = 100 - r.start.score;
@@ -166,69 +175,55 @@ export function ModelProgressResearch() {
             const xStart = xFor(startErr);
             const xEnd = xFor(endErr);
             const years = r.end.year - r.start.year;
-            const deltaPts = (r.start.score - r.end.score) * -1; // negative = error fell
             const relativeCut = ((startErr - endErr) / startErr) * 100;
 
             return (
               <g key={r.key}>
-                {/* Row background rule */}
+                {/* Row baseline */}
                 <line
                   x1={xFor(0)}
                   y1={y}
                   x2={xFor(scaleMax)}
                   y2={y}
-                  stroke="rgba(31, 26, 22, 0.08)"
+                  stroke="rgba(31, 26, 22, 0.06)"
                   strokeWidth="1"
                 />
 
-                {/* Left-gutter label */}
+                {/* Left gutter: name + descriptor */}
                 <text
-                  x={axisLeft - 18}
-                  y={y - 4}
+                  x={axisLeft - 20}
+                  y={y - 2}
                   textAnchor="end"
-                  fontSize="19"
+                  fontSize="20"
                   fontWeight="700"
-                  fill="rgba(31, 26, 22, 0.9)"
+                  fill="rgba(31, 26, 22, 0.92)"
                 >
                   {r.label}
                 </text>
                 <text
-                  x={axisLeft - 18}
-                  y={y + 18}
+                  x={axisLeft - 20}
+                  y={y + 20}
                   textAnchor="end"
                   fontSize="12"
                   fontStyle="italic"
-                  fill="rgba(31, 26, 22, 0.6)"
+                  fill="rgba(31, 26, 22, 0.58)"
                 >
                   {r.note}
                 </text>
 
-                {/* Connector (end → start, arrowhead toward start) */}
+                {/* Connector */}
                 <line
-                  x1={xEnd}
+                  x1={xStart}
                   y1={y}
-                  x2={xStart}
+                  x2={xEnd}
                   y2={y}
                   stroke={r.color}
                   strokeWidth="5"
                   strokeLinecap="round"
-                  opacity="0.35"
+                  opacity="0.32"
                 />
 
-                {/* End dot — DARK, the current state, drawn LAST/ON TOP */}
-                <circle cx={xEnd} cy={y} r={11} fill={r.color} />
-                <text
-                  x={xEnd}
-                  y={y - 20}
-                  textAnchor="middle"
-                  fontSize="13"
-                  fontWeight="700"
-                  fill={r.color}
-                >
-                  {r.end.year} · {endErr.toFixed(1)}%
-                </text>
-
-                {/* Start dot — LIGHT (ring), where it began */}
+                {/* START ring — label ABOVE */}
                 <circle
                   cx={xStart}
                   cy={y}
@@ -239,31 +234,74 @@ export function ModelProgressResearch() {
                 />
                 <text
                   x={xStart}
-                  y={y - 20}
+                  y={y - 22}
                   textAnchor="middle"
                   fontSize="13"
                   fontWeight="600"
                   fill={r.color}
-                  opacity="0.75"
+                  opacity="0.82"
                 >
-                  {r.start.year} · {startErr.toFixed(0)}%
+                  {r.start.year}
+                </text>
+                <text
+                  x={xStart}
+                  y={y - 38}
+                  textAnchor="middle"
+                  fontSize="15"
+                  fontWeight="700"
+                  fill={r.color}
+                >
+                  {startErr.toFixed(0)}%
                 </text>
 
-                {/* Right-side summary */}
+                {/* END dot — label BELOW */}
+                <circle cx={xEnd} cy={y} r={11} fill={r.color} />
                 <text
-                  x={xFor(scaleMax) + 10}
-                  y={y + 5}
+                  x={xEnd}
+                  y={y + 28}
+                  textAnchor="middle"
                   fontSize="13"
-                  fontWeight="700"
-                  fill="rgba(31, 26, 22, 0.78)"
+                  fontWeight="600"
+                  fill={r.color}
+                  opacity="0.85"
                 >
-                  −{relativeCut.toFixed(0)}% in {years}y
+                  {r.end.year}
+                </text>
+                <text
+                  x={xEnd}
+                  y={y + 46}
+                  textAnchor="middle"
+                  fontSize="16"
+                  fontWeight="700"
+                  fill={r.color}
+                >
+                  {endErr.toFixed(1)}%
+                </text>
+
+                {/* Right gutter: relative cut */}
+                <text
+                  x={width - axisRight + 12}
+                  y={y - 4}
+                  fontSize="15"
+                  fontWeight="700"
+                  fill="rgba(31, 26, 22, 0.85)"
+                >
+                  −{relativeCut.toFixed(0)}%
+                </text>
+                <text
+                  x={width - axisRight + 12}
+                  y={y + 14}
+                  fontSize="11"
+                  fill="rgba(31, 26, 22, 0.55)"
+                  letterSpacing="0.06em"
+                >
+                  in {years}y
                 </text>
               </g>
             );
           })}
 
-          {/* Bottom axis ticks */}
+          {/* Bottom ticks */}
           {xTicks.map((tick) => (
             <text
               key={`b-${tick}`}
@@ -271,21 +309,21 @@ export function ModelProgressResearch() {
               y={topPad + rows.length * rowHeight + 22}
               textAnchor="middle"
               fill="rgba(31, 26, 22, 0.7)"
-              fontSize="14"
+              fontSize="13"
             >
               {tick}%
             </text>
           ))}
 
-          {/* Legend strip */}
-          <g transform={`translate(${axisLeft}, ${height - 18})`}>
+          {/* Legend */}
+          <g transform={`translate(${axisLeft}, ${height - 20})`}>
             <circle cx={0} cy={0} r={7} fill="rgba(255, 253, 249, 1)" stroke="rgba(31,26,22,0.55)" strokeWidth="2" />
-            <text x={14} y={4} fontSize="12" fill="rgba(31, 26, 22, 0.7)">
+            <text x={14} y={4} fontSize="12" fill="rgba(31, 26, 22, 0.65)">
               starting year
             </text>
             <circle cx={150} cy={0} r={8} fill="rgba(31, 26, 22, 0.75)" />
-            <text x={166} y={4} fontSize="12" fill="rgba(31, 26, 22, 0.7)">
-              most recent score
+            <text x={166} y={4} fontSize="12" fill="rgba(31, 26, 22, 0.65)">
+              most recent year
             </text>
           </g>
         </svg>
