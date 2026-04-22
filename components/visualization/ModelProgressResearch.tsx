@@ -1,7 +1,6 @@
 'use client';
 
 import React from 'react';
-import { SourceLine } from '../ui/SourceLine';
 
 /**
  * Time-rise benchmark chart.
@@ -106,10 +105,27 @@ export function ModelProgressResearch() {
         style={{
           width: 'min(100%, 78rem)',
           display: 'grid',
-          gap: '1rem',
-          padding: '1.25rem 1.5rem 1rem',
+          gap: '0.75rem',
+          padding: '1.25rem 1.5rem 1.25rem',
         }}
       >
+        {/* Inline dek — names the argument the chart makes */}
+        <p
+          style={{
+            margin: 0,
+            fontSize: '0.95rem',
+            lineHeight: 1.4,
+            color: 'rgba(31, 26, 22, 0.72)',
+            maxWidth: '56ch',
+          }}
+        >
+          Three very different kinds of work, rising into the same
+          <span style={{ color: 'rgba(45, 95, 74, 0.95)', fontWeight: 600 }}>
+            {' '}≥ 90% saturation band{' '}
+          </span>
+          in three years.
+        </p>
+
         {/* External legend */}
         <ul
           style={{
@@ -378,17 +394,6 @@ export function ModelProgressResearch() {
             SCORE %
           </text>
         </svg>
-
-        <SourceLine
-          ids={[
-            'benchmarksLocal',
-            'mythosCard',
-            'sweBenchSite',
-            'sweBenchVerified',
-            'gpqaPaper',
-            'aiIndex2025',
-          ]}
-        />
       </div>
     </div>
   );

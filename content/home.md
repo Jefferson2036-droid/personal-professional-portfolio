@@ -77,9 +77,6 @@ sweBenchVerified, sweBenchSite, gpqaPaper, aiIndex2025
 ```model-progress
 ```
 
-Scores inside the green band (≥ 90%) are where researchers consider a
-benchmark saturated.
-
 ```source-line
 benchmarksLocal, mythosCard, sweBenchVerified, gpqaPaper, aiIndex2025
 ```
