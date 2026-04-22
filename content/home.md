@@ -79,11 +79,9 @@ sweBenchVerified, sweBenchSite, gpqaPaper, aiIndex2025
 ```model-progress
 ```
 
-Each line is one benchmark over time. The green band at the top is
-*saturation* — scores above roughly 90%, where researchers consider the
-test essentially exhausted. MMLU started there. GPQA and SWE-bench
-Verified climbed into it from very different starting points, in two and
-three years respectively.
+Scores above roughly 90% — the green band — are where researchers
+consider a benchmark saturated. MMLU was already there. GPQA and
+SWE-bench Verified climbed into it from very different starting points.
 
 ```source-line
 benchmarksLocal, mythosCard, sweBenchVerified, gpqaPaper, aiIndex2025

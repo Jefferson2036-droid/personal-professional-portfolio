@@ -6,22 +6,20 @@ import { SourceLine } from '../ui/SourceLine';
 /**
  * Time-rise benchmark chart.
  *
- * The slide argues: three very different kinds of work all climbed into the
- * same saturation ceiling within a three-year window. That is a *time*
- * story, so time is the x-axis. Score is y. The saturation band at >=90%
- * is the ceiling they are rising into.
+ * Argument: three benchmarks of very different kinds of work all climb into
+ * the same >=90% saturation band within a three-year window. Time is on x,
+ * score on y.
  *
- * Design choices:
- *  - Real milestone data, no imputation. If a benchmark has no report in a
- *    given year, the line skips it (SWE-bench Verified only reports from
- *    2024; MMLU is not reported in 2026 — it stopped being measured because
- *    it is considered saturated).
- *  - Each series is labeled at its terminal dot on the right, so the chart
- *    needs no separate legend.
- *  - Saturation band is a single horizontal strip across the top, not three
- *    per-row bands, so "they all land in the same ceiling" is visible.
- *  - Headline annotation on the steepest climbs (GPQA, SWE-bench Verified)
- *    is placed in empty space between the lines.
+ * Design discipline:
+ *  - External legend above the plot. Chart has no inline series text.
+ *  - Only two numeric callouts per line: start score (bold, at the first
+ *    dot) and end score (bold, at the last dot). No deltas, no descriptors,
+ *    no series names inside the chart.
+ *  - Y axis is broken at 30–100% so the plot spends its canvas on the
+ *    region where the story lives. A small axis-break glyph signals the
+ *    truncation.
+ *  - Real milestone data, no imputation. Missing years produce gaps, not
+ *    interpolation.
  */
 
 type Point = { year: number; score: number };
@@ -62,7 +60,7 @@ const series: Series[] = [
   {
     key: 'mmlu',
     label: 'MMLU',
-    note: 'broad knowledge QA — leading indicator',
+    note: 'broad knowledge QA — already a leading indicator',
     color: '#2d5f4a',
     points: [
       { year: 2023, score: 86.4 },
@@ -72,17 +70,17 @@ const series: Series[] = [
   },
 ];
 
-// Geometry
+// Geometry — shorter canvas, tighter right gutter (no terminal labels).
 const width = 960;
-const height = 520;
-const padTop = 72;
-const padBottom = 72;
-const padLeft = 72;
-const padRight = 260; // room for terminal labels
+const height = 380;
+const padTop = 48;
+const padBottom = 56;
+const padLeft = 68;
+const padRight = 40;
 
 const xMin = 2023;
 const xMax = 2026;
-const yMin = 0;
+const yMin = 30;       // broken axis — plot region starts at 30
 const yMax = 100;
 const saturationY = 90;
 
@@ -90,10 +88,11 @@ function xFor(year: number) {
   return padLeft + ((year - xMin) / (xMax - xMin)) * (width - padLeft - padRight);
 }
 function yFor(score: number) {
-  return padTop + (1 - (score - yMin) / (yMax - yMin)) * (height - padTop - padBottom);
+  const clamped = Math.max(yMin, Math.min(yMax, score));
+  return padTop + (1 - (clamped - yMin) / (yMax - yMin)) * (height - padTop - padBottom);
 }
 
-const yTicks = [0, 25, 50, 75, 100];
+const yTicks = [30, 50, 70, 90, 100];
 const xYears = [2023, 2024, 2025, 2026];
 
 export function ModelProgressResearch() {
@@ -105,18 +104,57 @@ export function ModelProgressResearch() {
       <div
         className="model-progress-panel"
         style={{
-          width: 'min(100%, 80rem)',
+          width: 'min(100%, 78rem)',
           display: 'grid',
-          gap: '0.75rem',
+          gap: '1rem',
           padding: '1.25rem 1.5rem 1rem',
         }}
       >
+        {/* External legend */}
+        <ul
+          style={{
+            listStyle: 'none',
+            margin: 0,
+            padding: 0,
+            display: 'grid',
+            gridTemplateColumns: 'repeat(3, minmax(0, 1fr))',
+            gap: '0.75rem 1.25rem',
+            fontSize: '0.95rem',
+            lineHeight: 1.35,
+          }}
+          aria-label="Benchmark legend"
+        >
+          {series.map((s) => (
+            <li
+              key={s.key}
+              style={{ display: 'flex', gap: '0.6rem', alignItems: 'flex-start' }}
+            >
+              <span
+                aria-hidden="true"
+                style={{
+                  flex: '0 0 auto',
+                  width: '0.9rem',
+                  height: '0.9rem',
+                  marginTop: '0.3rem',
+                  borderRadius: '999px',
+                  background: s.color,
+                }}
+              />
+              <span>
+                <strong style={{ color: s.color }}>{s.label}</strong>
+                <br />
+                <span style={{ color: 'rgba(31,26,22,0.62)', fontStyle: 'italic' }}>{s.note}</span>
+              </span>
+            </li>
+          ))}
+        </ul>
+
         <svg
           width="100%"
           viewBox={`0 0 ${width} ${height}`}
           preserveAspectRatio="xMidYMid meet"
           role="img"
-          aria-label="Three benchmarks rising into the 90% saturation ceiling between 2023 and 2026. MMLU starts at 86.4 in 2023 and crosses the ceiling in 2024. GPQA Diamond climbs from 39.0 in 2023 to 94.5 in 2026. SWE-bench Verified climbs from 33.2 in 2024 to 93.9 in 2026."
+          aria-label="Three benchmarks rising into the 90% saturation band between 2023 and 2026. MMLU starts at 86.4 in 2023 and reaches 93.4 in 2025. GPQA Diamond climbs from 39.0 in 2023 to 94.5 in 2026. SWE-bench Verified climbs from 33.2 in 2024 to 93.9 in 2026."
           style={{ overflow: 'visible' }}
         >
           {/* Saturation ceiling band: score >= 90 */}
@@ -132,43 +170,19 @@ export function ModelProgressResearch() {
             y1={yFor(saturationY)}
             x2={width - padRight}
             y2={yFor(saturationY)}
-            stroke="rgba(45, 95, 74, 0.45)"
+            stroke="rgba(45, 95, 74, 0.5)"
             strokeWidth="1"
             strokeDasharray="4 4"
           />
           <text
-            x={width - padRight - 8}
-            y={yFor(100) + 18}
-            textAnchor="end"
-            fontSize="12"
-            fontWeight="700"
-            letterSpacing="0.12em"
-            fill="rgba(45, 95, 74, 0.9)"
-          >
-            SATURATION CEILING
-          </text>
-          <text
-            x={width - padRight - 8}
-            y={yFor(100) + 34}
-            textAnchor="end"
-            fontSize="11"
-            fontWeight="600"
-            letterSpacing="0.04em"
-            fill="rgba(45, 95, 74, 0.72)"
-          >
-            ≥ 90% SCORE
-          </text>
-
-          {/* Y axis title */}
-          <text
-            x={padLeft - 48}
-            y={padTop - 28}
+            x={padLeft + 6}
+            y={yFor(100) + 16}
             fontSize="12"
             fontWeight="700"
             letterSpacing="0.14em"
-            fill="rgba(31, 26, 22, 0.55)"
+            fill="rgba(45, 95, 74, 0.9)"
           >
-            BENCHMARK SCORE
+            ≥ 90% · SATURATION
           </text>
 
           {/* Y ticks + gridlines */}
@@ -187,12 +201,24 @@ export function ModelProgressResearch() {
                 y={yFor(t) + 4}
                 textAnchor="end"
                 fontSize="13"
-                fill="rgba(31, 26, 22, 0.7)"
+                fill="rgba(31, 26, 22, 0.62)"
               >
-                {t}%
+                {t}
               </text>
             </g>
           ))}
+
+          {/* Broken-axis glyph at the bottom of the y-axis */}
+          <g transform={`translate(${padLeft}, ${height - padBottom + 2})`}>
+            <path
+              d="M -6 0 L 0 -4 L 0 -8 L -6 -12"
+              fill="none"
+              stroke="rgba(31, 26, 22, 0.45)"
+              strokeWidth="1.25"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </g>
 
           {/* X ticks */}
           {xYears.map((y) => (
@@ -207,7 +233,7 @@ export function ModelProgressResearch() {
               />
               <text
                 x={xFor(y)}
-                y={height - padBottom + 24}
+                y={height - padBottom + 22}
                 textAnchor="middle"
                 fontSize="14"
                 fontWeight="600"
@@ -218,87 +244,89 @@ export function ModelProgressResearch() {
             </g>
           ))}
 
-          {/* Series lines + points + terminal labels */}
+          {/* Series lines + terminal/start value callouts only */}
           {series.map((s) => {
             const pts = s.points;
-            const last = pts[pts.length - 1];
             const first = pts[0];
+            const last = pts[pts.length - 1];
             const pathD = pts
               .map((p, i) => `${i === 0 ? 'M' : 'L'} ${xFor(p.year)} ${yFor(p.score)}`)
               .join(' ');
-            const deltaPts = last.score - first.score;
-            const deltaYrs = last.year - first.year;
+
+            // Label placement: start score sits on the open side (below if
+            // the start is already high like MMLU, above otherwise). End
+            // score sits just above the last dot.
+            const startAbove = first.score < 70;
+            const startLabelY = yFor(first.score) + (startAbove ? -14 : 22);
+            const startAnchor = first.year === xMin ? 'start' : 'middle';
+            const startX = first.year === xMin ? xFor(first.year) + 12 : xFor(first.year);
+            const endAnchor = last.year === xMax ? 'end' : 'middle';
+            const endX = last.year === xMax ? xFor(last.year) - 10 : xFor(last.year);
 
             return (
               <g key={s.key}>
-                {/* Glow under the line for separation against gridlines */}
-                <path d={pathD} fill="none" stroke={s.color} strokeOpacity="0.18" strokeWidth="8" strokeLinecap="round" strokeLinejoin="round" />
-                <path d={pathD} fill="none" stroke={s.color} strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round" />
+                <path
+                  d={pathD}
+                  fill="none"
+                  stroke={s.color}
+                  strokeOpacity="0.18"
+                  strokeWidth="8"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+                <path
+                  d={pathD}
+                  fill="none"
+                  stroke={s.color}
+                  strokeWidth="3.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
 
-                {/* Milestone dots with small score labels */}
-                {pts.map((p, i) => {
-                  const isTerminal = i === pts.length - 1;
-                  const isStart = i === 0;
-                  // Place per-point score label above the dot by default,
-                  // below when the dot is already high in the chart (>= 85).
-                  const above = p.score < 85;
-                  const labelY = yFor(p.score) + (above ? -14 : 22);
-                  return (
-                    <g key={`${s.key}-${p.year}`}>
-                      <circle
-                        cx={xFor(p.year)}
-                        cy={yFor(p.score)}
-                        r={isTerminal ? 8 : 5.5}
-                        fill={isTerminal ? s.color : 'rgba(255,253,249,1)'}
-                        stroke={s.color}
-                        strokeWidth={isTerminal ? 0 : 2.5}
-                      />
-                      {(isStart || isTerminal) && (
-                        <text
-                          x={xFor(p.year)}
-                          y={labelY}
-                          textAnchor="middle"
-                          fontSize="13"
-                          fontWeight="700"
-                          fill={s.color}
-                        >
-                          {p.score.toFixed(p.score % 1 === 0 ? 0 : 1)}
-                        </text>
-                      )}
-                    </g>
-                  );
-                })}
+                {/* Intermediate dots — small, quiet */}
+                {pts.slice(1, -1).map((p) => (
+                  <circle
+                    key={`${s.key}-mid-${p.year}`}
+                    cx={xFor(p.year)}
+                    cy={yFor(p.score)}
+                    r={4}
+                    fill="rgba(255,253,249,1)"
+                    stroke={s.color}
+                    strokeWidth="2"
+                  />
+                ))}
 
-                {/* Terminal series label, right of last dot */}
+                {/* Start dot + label */}
+                <circle
+                  cx={xFor(first.year)}
+                  cy={yFor(first.score)}
+                  r={6}
+                  fill="rgba(255,253,249,1)"
+                  stroke={s.color}
+                  strokeWidth="2.5"
+                />
                 <text
-                  x={xFor(last.year) + 16}
-                  y={yFor(last.score) - 4}
-                  fontSize="18"
+                  x={startX}
+                  y={startLabelY}
+                  textAnchor={startAnchor}
+                  fontSize="13"
                   fontWeight="700"
                   fill={s.color}
                 >
-                  {s.label}
+                  {first.score}
                 </text>
+
+                {/* End dot + label */}
+                <circle cx={xFor(last.year)} cy={yFor(last.score)} r={8} fill={s.color} />
                 <text
-                  x={xFor(last.year) + 16}
-                  y={yFor(last.score) + 14}
-                  fontSize="12"
-                  fontStyle="italic"
-                  fill="rgba(31, 26, 22, 0.62)"
-                >
-                  {s.note}
-                </text>
-                <text
-                  x={xFor(last.year) + 16}
-                  y={yFor(last.score) + 32}
-                  fontSize="12"
-                  fontWeight="600"
-                  letterSpacing="0.04em"
+                  x={endX}
+                  y={yFor(last.score) - 14}
+                  textAnchor={endAnchor}
+                  fontSize="14"
+                  fontWeight="700"
                   fill={s.color}
-                  opacity="0.78"
                 >
-                  {deltaPts >= 0 ? '+' : ''}
-                  {deltaPts.toFixed(1)} pts in {deltaYrs}y
+                  {last.score}
                 </text>
               </g>
             );
@@ -322,6 +350,19 @@ export function ModelProgressResearch() {
             stroke="rgba(31, 26, 22, 0.35)"
             strokeWidth="1.25"
           />
+
+          {/* Y axis unit — tiny, top of y-axis */}
+          <text
+            x={padLeft - 12}
+            y={padTop - 14}
+            textAnchor="end"
+            fontSize="11"
+            fontWeight="600"
+            letterSpacing="0.12em"
+            fill="rgba(31, 26, 22, 0.5)"
+          >
+            SCORE %
+          </text>
         </svg>
 
         <SourceLine
@@ -338,4 +379,3 @@ export function ModelProgressResearch() {
     </div>
   );
 }
-
