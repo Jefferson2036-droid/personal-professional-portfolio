@@ -62,7 +62,7 @@ The strongest one-sentence positioning this handout supports is:
 are AI and big data, cybersecurity, and technological literacy. The binding
 constraint is the skills gap, not the job count.
 
-## Realistic Optimism — The Copy Discipline We Apply Across The Site
+## Realistic Optimism: Capability Growth, Lumpy Enterprise Impact
 
 Enterprise AI productivity has micro-level evidence (Brynjolfsson et al.
 **14%** customer-support gain; Noy & Zhang writing tasks) and large macro
@@ -77,8 +77,7 @@ The **productivity J-curve** (Brynjolfsson, Rock, Syverson) is the site's
 canonical explanation for why aggregate gains arrive slowly even when
 capability is rising fast: general-purpose technologies require years of
 complementary investment in workflows, skills, and organizational design
-before aggregate productivity gains become visible. Everywhere else on the
-site that wants to hedge a macro claim links back to this paragraph.
+before aggregate productivity gains become visible.
 
 Grace et al. 2023 expert survey of 2,778 AI researchers places the median
 50% HLMI estimate at **2047** (published as an expert survey, not a
