@@ -1,16 +1,16 @@
 :root {
-  color-scheme: light;
+  color-scheme: dark;
   
-  /* Design System Colors */
-  --page-background: #f5f1ea;
-  --surface: #fffdf9;
-  --surface-strong: #f0e6d7;
-  --text: #1f1a16;
-  --text-muted: #5c5248;
-  --border: #d9c8af;
-  --accent: #8d4e2f;
-  --accent-strong: #6f391e;
-  --shadow: 0 20px 50px rgba(53, 34, 17, 0.08);
+  /* Brutalist design tokens */
+  --page-background: #000000;
+  --surface: #ffffff;
+  --surface-strong: #f3f3f3;
+  --text: #111111;
+  --text-muted: #3a3a3a;
+  --border: #000000;
+  --accent: #000000;
+  --accent-strong: #000000;
+  --shadow: 0 10px 0 rgba(255, 255, 255, 0.08);
 
   /* The Golden Ratio */
   --phi: 1.618;
@@ -118,10 +118,8 @@ html {
 body {
   margin: 0;
   min-height: 100vh;
-  background:
-    radial-gradient(circle at top left, rgba(255, 255, 255, 0.85), transparent 28%),
-    linear-gradient(180deg, #efe2cf 0%, var(--page-background) 100%);
-  color: var(--text);
+  background: var(--page-background);
+  color: #ffffff;
   font-family: var(--font-sans), "Avenir Next", "Helvetica Neue", Arial, sans-serif;
   font-size: var(--text-base);
   line-height: var(--baseline);
@@ -140,6 +138,99 @@ a {
 
 a:hover {
   text-decoration: underline;
+}
+
+body.brutalist .site-shell,
+body.brutalist .site-main,
+body.brutalist .presentation-track,
+body.brutalist .presentation-slide,
+body.brutalist .presentation-slide__stage,
+body.brutalist .presentation-slide-content,
+body.brutalist .page,
+body.brutalist .main {
+  background: #000;
+  color: #fff;
+}
+
+body.brutalist .hero-panel,
+body.brutalist .detail-panel,
+body.brutalist .mini-card,
+body.brutalist .glass-panel,
+body.brutalist .presentation-background-panel,
+body.brutalist .presentation-standard-panel,
+body.brutalist .split-layout__content,
+body.brutalist .thesisFrame,
+body.brutalist .emphasisCard,
+body.brutalist .returnNav {
+  background: #fff;
+  color: #000;
+  border: 4px solid #000;
+  border-radius: 0;
+  box-shadow: 10px 10px 0 rgba(255, 255, 255, 0.08);
+}
+
+body.brutalist .heroCopy,
+body.brutalist .presentation-copy-frame,
+body.brutalist .presentation-copy-frame--background,
+body.brutalist .presentation-copy-frame--standard,
+body.brutalist .presentation-background-panel,
+body.brutalist .presentation-standard-panel,
+body.brutalist .split-layout__content {
+  color: #000;
+}
+
+body.brutalist .theme-dark {
+  --text: #111111;
+  --text-muted: #3a3a3a;
+}
+
+body.brutalist .glass-panel--dark {
+  background: #fff;
+  border: 4px solid #000;
+  color: #000;
+}
+
+body.brutalist .parallax-overlay {
+  background: #000;
+}
+
+body.brutalist .presentation-background-panel .heading--1,
+body.brutalist .presentation-background-panel .heading--2,
+body.brutalist .presentation-standard-panel .heading--1,
+body.brutalist .presentation-standard-panel .heading--2,
+body.brutalist .presentation-background-panel .text-body,
+body.brutalist .presentation-standard-panel .text-body,
+body.brutalist .split-layout__content h1,
+body.brutalist .split-layout__content h2,
+body.brutalist .split-layout__content p,
+body.brutalist .thesisFrame,
+body.brutalist .emphasisValue,
+body.brutalist .returnLink,
+body.brutalist .returnMeta {
+  color: #000;
+}
+
+body.brutalist .site-header,
+body.brutalist .site-footer {
+  color: #000;
+}
+
+body.brutalist .site-footer--presentation,
+body.brutalist .site-footer--standard {
+  padding-bottom: 0;
+}
+
+body.brutalist .site-footer__inner--presentation,
+body.brutalist .site-footer__inner--standard {
+  background: #fff;
+  border: 4px solid #000;
+  border-radius: 0;
+  color: #000;
+  box-shadow: 0 -10px 0 rgba(255, 255, 255, 0.08);
+}
+
+body.brutalist .site-footer__link--external {
+  color: #000;
 }
 
 /* Modulor Grid Skeleton */
@@ -2403,4 +2494,9 @@ body.is-middle-slide {
     grid-template-columns: 1fr;
     gap: 0.25rem;
   }
+}
+
+body {
+  background-color: white !important;
+  color: black !important;
 }
