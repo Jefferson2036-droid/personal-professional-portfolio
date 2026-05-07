@@ -1,0 +1,13 @@
+docs/_*
+node_modules/
+.next/
+out/
+dist/
+playwright-report/
+test-results/
+.DS_Store
+*.log
+
+# Unreferenced generated image sets — kept on disk, not tracked
+public/images/archetype-atlas/
+public/images/student-portfolios/

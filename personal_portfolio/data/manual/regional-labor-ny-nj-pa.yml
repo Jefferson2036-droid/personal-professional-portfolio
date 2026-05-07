@@ -1,0 +1,96 @@
+# Regional labor-market extract — New York / New Jersey / Pennsylvania CBSA rollup.
+#
+# Scope: ten role families named in docs/_specs/data/regional-labor-ny-nj-pa.md.
+# Geography: NY-NJ-PA combined statistical areas (New York-Newark-Jersey City MSA +
+# Philadelphia-Camden-Wilmington MSA + Albany, Buffalo, Pittsburgh, Harrisburg MSAs).
+#
+# DATA PROVENANCE (important — read before citing):
+# Lightcast enterprise posting data is not yet available to this project.
+# The figures below are derived from the public fallback chain named in the
+# spec: BLS OES metro totals for the nearest SOC occupation, adjusted by the
+# Indeed Hiring Lab AI-mentions share and LinkedIn Economic Graph regional
+# quotes. They are order-of-magnitude estimates suitable for framing, not
+# hiring decisions. Every row names its source. The caveats array states
+# the methodology limits honestly.
+#
+# When Lightcast access is secured, regenerate this file with posting-level
+# data and set provenance: "lightcast" on each row.
+geography: NY-NJ-PA-CBSA
+generatedAs: estimate-from-public-sources
+roles:
+  - roleFamily: Business Analyst
+    regionPostings2025: 14200
+    nationalPostings2025: 112000
+    regionalShareOfNational: 0.127
+    medianPostedSalaryUSD: 98000
+    sourceId: blsOesMetro
+    provenance: bls-oes-adjusted
+  - roleFamily: Data Analyst
+    regionPostings2025: 11800
+    nationalPostings2025: 95000
+    regionalShareOfNational: 0.124
+    medianPostedSalaryUSD: 92000
+    sourceId: blsOesMetro
+    provenance: bls-oes-adjusted
+  - roleFamily: AI Deployment Engineer
+    regionPostings2025: 2400
+    nationalPostings2025: 18500
+    regionalShareOfNational: 0.130
+    medianPostedSalaryUSD: 185000
+    sourceId: indeedAITracker
+    provenance: indeed-ai-adjusted
+  - roleFamily: Product Analyst (Agentic Systems)
+    regionPostings2025: 1900
+    nationalPostings2025: 14200
+    regionalShareOfNational: 0.134
+    medianPostedSalaryUSD: 148000
+    sourceId: indeedAITracker
+    provenance: indeed-ai-adjusted
+  - roleFamily: Solutions Architect
+    regionPostings2025: 5600
+    nationalPostings2025: 42000
+    regionalShareOfNational: 0.133
+    medianPostedSalaryUSD: 172000
+    sourceId: blsOesMetro
+    provenance: bls-oes-adjusted
+  - roleFamily: QA / Validation Analyst
+    regionPostings2025: 3100
+    nationalPostings2025: 26800
+    regionalShareOfNational: 0.116
+    medianPostedSalaryUSD: 92000
+    sourceId: blsOesMetro
+    provenance: bls-oes-adjusted
+  - roleFamily: Knowledge-Management Analyst
+    regionPostings2025: 1600
+    nationalPostings2025: 12400
+    regionalShareOfNational: 0.129
+    medianPostedSalaryUSD: 108000
+    sourceId: linkedinEconomicGraphRegional
+    provenance: linkedin-regional-quote
+  - roleFamily: AI Governance Associate
+    regionPostings2025: 780
+    nationalPostings2025: 5900
+    regionalShareOfNational: 0.132
+    medianPostedSalaryUSD: 142000
+    sourceId: linkedinEconomicGraphRegional
+    provenance: linkedin-regional-quote
+  - roleFamily: Forward-Deployed Engineer
+    regionPostings2025: 1350
+    nationalPostings2025: 9800
+    regionalShareOfNational: 0.138
+    medianPostedSalaryUSD: 202000
+    sourceId: indeedAITracker
+    provenance: indeed-ai-adjusted
+  - roleFamily: Applied AI Engineer
+    regionPostings2025: 2950
+    nationalPostings2025: 21700
+    regionalShareOfNational: 0.136
+    medianPostedSalaryUSD: 298000
+    sourceId: indeedAITracker
+    provenance: indeed-ai-adjusted
+caveats:
+  - "Regional posting counts are estimates from BLS OES metro totals and Indeed/LinkedIn public data; Lightcast enterprise posting data not yet incorporated."
+  - "NY-NJ-PA rollup combines the New York-Newark-Jersey City MSA, Philadelphia-Camden-Wilmington MSA, and four additional in-state CBSAs (Albany, Buffalo, Pittsburgh, Harrisburg). Counts double-count any posting that lists multiple metros."
+  - "Posted salaries reflect advertised base pay, not realized compensation; AI-adjacent roles (Applied AI Engineer, FDE) show the widest realized spread in reference data."
+  - "SOC codes do not yet cleanly map to 'AI Deployment Engineer' or 'AI Governance Associate' — those counts are estimated from AI-mention share within adjacent SOC codes (15-1252, 13-1081)."
+  - "This dataset will be regenerated with Lightcast posting-level data when access is secured; expect ±25% revisions on the smaller role families."

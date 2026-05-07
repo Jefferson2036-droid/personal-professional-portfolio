@@ -1,0 +1,62 @@
+# Student-formation baseline metrics for slide 9b + the student-formation handout.
+# All string-valued readings (e.g. "~28%") are allowed where the source quotes imprecisely.
+readinessBaseline:
+  - id: chronicAbsenteeism2024
+    label: U.S. chronic absenteeism rate (2023–24)
+    value: "~28%"
+    asOf: 2024-09-01
+    sourceId: edChronicAbsenteeism
+  - id: naepGrade12Reading2024
+    label: NAEP Grade 12 reading — below basic
+    value: "~31%"
+    asOf: 2024-06-01
+    sourceId: naepGrade12Reading2024
+  - id: actAvgComposite2024
+    label: ACT composite — 2024 graduating class
+    value: "19.4"
+    asOf: 2024-10-01
+    sourceId: actGraduatingClass2024
+
+aiLiteracyBaseline:
+  - id: k12AITraining
+    label: Teachers reporting any training in AI use (2024–25)
+    value: "~33%"
+    asOf: 2025-03-01
+    sourceId: randK12AITraining
+  - id: k12AIPolicy
+    label: Districts with formal AI policies (2024–25)
+    value: "~24%"
+    asOf: 2025-03-01
+    sourceId: randK12AIPolicy
+
+workplaceBaseline:
+  - id: gallupAIAtWork
+    label: Employed adults using AI weekly
+    value: "~19%"
+    asOf: 2024-07-01
+    sourceId: gallupAIWorkplace
+  - id: nyFedAIUse2026
+    label: Firms reporting AI use at work (NY Fed, 2026)
+    value: "~40%"
+    asOf: 2026-02-01
+    sourceId: nyFedAIUse2026
+
+employerSkillValues:
+  - id: naceCommunication2025
+    label: Employer rating — communication skills (1–5)
+    value: 4.61
+    asOf: 2025-01-01
+    sourceId: naceJobOutlook2025
+    naceValue: { scale: 5, metric: 4.61 }
+  - id: naceProblemSolving2025
+    label: Employer rating — problem-solving (1–5)
+    value: 4.59
+    asOf: 2025-01-01
+    sourceId: naceJobOutlook2025
+    naceValue: { scale: 5, metric: 4.59 }
+  - id: naceProfessionalism2025
+    label: Employer rating — professionalism (1–5)
+    value: 4.55
+    asOf: 2025-01-01
+    sourceId: naceJobOutlook2025
+    naceValue: { scale: 5, metric: 4.55 }

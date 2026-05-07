@@ -1,0 +1,50 @@
+{
+  "generatedAt": "2026-04-23T02:31:27.973Z",
+  "rows": [
+    {
+      "metric": "orgs using AI in >=1 function",
+      "value": 88,
+      "unit": "percent",
+      "asOf": "2025-10-01T00:00:00.000Z",
+      "sourceId": "mckinseyStateOfAI2025",
+      "pairedScaleGapMetric": "orgs reporting enterprise-level EBIT impact"
+    },
+    {
+      "metric": "orgs reporting enterprise-level EBIT impact",
+      "value": 39,
+      "unit": "percent",
+      "asOf": "2025-10-01T00:00:00.000Z",
+      "sourceId": "mckinseyStateOfAI2025"
+    },
+    {
+      "metric": "orgs scaling an agentic system somewhere",
+      "value": 23,
+      "unit": "percent",
+      "asOf": "2025-10-01T00:00:00.000Z",
+      "sourceId": "mckinseyStateOfAI2025",
+      "pairedScaleGapMetric": "orgs scaling agents in any single function"
+    },
+    {
+      "metric": "orgs scaling agents in any single function",
+      "value": 10,
+      "unit": "percent",
+      "asOf": "2025-10-01T00:00:00.000Z",
+      "sourceId": "mckinseyStateOfAI2025"
+    },
+    {
+      "metric": "firms abandoning most AI initiatives before production",
+      "value": 42,
+      "unit": "percent",
+      "asOf": "2025-09-01T00:00:00.000Z",
+      "sourceId": "spGlobalVotE2025",
+      "pairedScaleGapMetric": "projects scrapped between PoC and broad adoption"
+    },
+    {
+      "metric": "projects scrapped between PoC and broad adoption",
+      "value": 46,
+      "unit": "percent",
+      "asOf": "2025-09-01T00:00:00.000Z",
+      "sourceId": "spGlobalVotE2025"
+    }
+  ]
+}

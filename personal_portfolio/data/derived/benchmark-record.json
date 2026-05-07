@@ -1,0 +1,47 @@
+{
+  "generatedAt": "2026-04-23T02:31:27.971Z",
+  "series": [
+    {
+      "id": "swe-bench-verified",
+      "label": "Swe Bench Verified",
+      "points": [
+        {
+          "date": "2024-05-01T00:00:00.000Z",
+          "model": "Claude 3 Opus",
+          "score": 18.2,
+          "sourceId": "benchmarksLocal"
+        },
+        {
+          "date": "2024-10-22T00:00:00.000Z",
+          "model": "Claude 3.5 Sonnet",
+          "score": 49,
+          "sourceId": "sweBenchVerified"
+        },
+        {
+          "date": "2025-02-24T00:00:00.000Z",
+          "model": "Claude 3.7 Sonnet",
+          "score": 62.3,
+          "sourceId": "sweBenchVerified"
+        },
+        {
+          "date": "2025-05-22T00:00:00.000Z",
+          "model": "Claude 4 Sonnet",
+          "score": 72.7,
+          "sourceId": "sweBenchVerified"
+        },
+        {
+          "date": "2026-04-07T00:00:00.000Z",
+          "model": "Claude Mythos Preview",
+          "score": 82.4,
+          "sourceId": "mythosCard"
+        }
+      ]
+    }
+  ],
+  "rates": [],
+  "sourceIds": [
+    "benchmarksLocal",
+    "sweBenchVerified",
+    "mythosCard"
+  ]
+}

@@ -1,0 +1,32 @@
+# Role clusters + illustrative salary bands. Sources: DR-3 extracts (manual provenance), LinkedIn, PwC, WEF.
+clusters:
+  - id: applied-ai
+    label: Applied AI Engineer
+    exampleTitles: [Applied AI Engineer, AI Product Engineer, ML Engineer]
+    exampleEmployers: [OpenAI, Anthropic, Scale AI, Databricks]
+    salaryRange: { lowUSD: 230000, highUSD: 385000, asOf: 2025-09-01, sourceId: linkedinLabor2026 }
+    studioCourses: [IS 117, IS 218, IS 480]
+  - id: fde
+    label: Forward-Deployed Engineer
+    exampleTitles: [Forward-Deployed Engineer, Solutions Engineer]
+    exampleEmployers: [Scale AI, Palantir, OpenAI]
+    salaryRange: { lowUSD: 179400, highUSD: 224250, asOf: 2025-09-01, sourceId: linkedinLabor2026 }
+    studioCourses: [IS 265, IS 390]
+  - id: product
+    label: AI Product / Analytics
+    exampleTitles: [AI Product Manager, Product Analyst]
+    exampleEmployers: [Notion, Linear, Anthropic]
+    salaryRange: { lowUSD: 150000, highUSD: 240000, asOf: 2025-09-01, sourceId: pwcAIJobsBarometer2025 }
+    studioCourses: [IS 117, IS 465]
+  - id: ops
+    label: AI Ops / Platform
+    exampleTitles: [AI Ops Engineer, Platform Engineer, Agent Ops]
+    exampleEmployers: [Stripe, Shopify, Anthropic]
+    salaryRange: { lowUSD: 170000, highUSD: 260000, asOf: 2025-09-01, sourceId: linkedinLabor2026 }
+    studioCourses: [IS 331, IS 390, IS 425, IS 480]
+  - id: consulting
+    label: AI Consulting / Deployment
+    exampleTitles: [AI Consultant, Deployment Consultant]
+    exampleEmployers: [BCG, Deloitte, Accenture]
+    salaryRange: { lowUSD: 130000, highUSD: 210000, asOf: 2025-09-01, sourceId: wefFutureOfJobs2025 }
+    studioCourses: [IS 265, IS 465]

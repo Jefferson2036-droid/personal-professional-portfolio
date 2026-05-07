@@ -1,0 +1,54 @@
+# Canonical studio spine + capstone.
+# Codes and titles MUST match doctrine/00-positioning-invariants.md §4 exactly.
+# scripts/build-data.ts enforces equality with the doctrine list.
+courses:
+  - code: IS 117
+    title: Introduction to Website Development
+    formationPractice: Written communication + interface critique
+    portfolioArtifact: Working interface
+    roleClusterIds: [applied-ai, product]
+  - code: IS 218
+    title: Building Web Applications
+    formationPractice: Peer code review + professional delivery
+    portfolioArtifact: Full-stack app
+    roleClusterIds: [applied-ai, product]
+  - code: IS 265
+    title: Introduction to Information Systems
+    formationPractice: Stakeholder translation + systems thinking
+    portfolioArtifact: Requirements package
+    roleClusterIds: [fde, consulting]
+  - code: IS 331
+    title: Database Design Management and Applications
+    formationPractice: Data discipline + schema critique
+    portfolioArtifact: Data model
+    roleClusterIds: [ops]
+  - code: IS 390
+    title: Requirements Analysis and Systems Design
+    formationPractice: Acceptance criteria + HITL design
+    portfolioArtifact: Workflow spec
+    roleClusterIds: [fde, ops]
+  - code: IS 392
+    title: AI-Driven Text Analytics
+    formationPractice: Language-model evaluation + prompt discipline
+    portfolioArtifact: Text-analytics pipeline
+    roleClusterIds: [applied-ai, product]
+  - code: IS 425
+    title: Enterprise AI Applications and Infrastructure
+    formationPractice: Governed deployment + on-call routines
+    portfolioArtifact: Deployment blueprint
+    roleClusterIds: [ops]
+  - code: IS 465
+    title: Data Analytics for Business Information Systems
+    formationPractice: Measurement + KPI design
+    portfolioArtifact: Analytics dashboard
+    roleClusterIds: [product, consulting]
+  - code: IS 480
+    title: Data-Centric AI
+    formationPractice: Evaluation discipline + failure analysis
+    portfolioArtifact: Eval harness
+    roleClusterIds: [applied-ai, ops]
+  - code: IS 491 / IT 491
+    title: Senior Project / Capstone
+    formationPractice: End-to-end integration + stakeholder defense
+    portfolioArtifact: Capstone deployment
+    roleClusterIds: [fde, applied-ai, product, ops, consulting]

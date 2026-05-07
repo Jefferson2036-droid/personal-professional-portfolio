@@ -1,0 +1,170 @@
+{
+  "generatedAt": "2026-04-23T02:31:27.968Z",
+  "rebaseYear": 2020,
+  "weights": {
+    "capability": 0.4,
+    "scaling": 0.25,
+    "economics": 0.2,
+    "deployment": 0.15
+  },
+  "series": [
+    {
+      "year": 2015,
+      "capability": 8,
+      "scaling": 11,
+      "economics": 19,
+      "deployment": 27,
+      "composite": 13.8
+    },
+    {
+      "year": 2016,
+      "capability": 13,
+      "scaling": 17,
+      "economics": 26,
+      "deployment": 35,
+      "composite": 19.9
+    },
+    {
+      "year": 2017,
+      "capability": 22,
+      "scaling": 27,
+      "economics": 36,
+      "deployment": 46,
+      "composite": 29.7
+    },
+    {
+      "year": 2018,
+      "capability": 37,
+      "scaling": 42,
+      "economics": 51,
+      "deployment": 59,
+      "composite": 44.4
+    },
+    {
+      "year": 2019,
+      "capability": 61,
+      "scaling": 65,
+      "economics": 71,
+      "deployment": 77,
+      "composite": 66.4
+    },
+    {
+      "year": 2020,
+      "capability": 100,
+      "scaling": 100,
+      "economics": 100,
+      "deployment": 100,
+      "composite": 100
+    },
+    {
+      "year": 2021,
+      "capability": 165,
+      "scaling": 155,
+      "economics": 140,
+      "deployment": 130,
+      "composite": 152.3
+    },
+    {
+      "year": 2022,
+      "capability": 272,
+      "scaling": 240,
+      "economics": 196,
+      "deployment": 169,
+      "composite": 233.4
+    },
+    {
+      "year": 2023,
+      "capability": 449,
+      "scaling": 372,
+      "economics": 274,
+      "deployment": 220,
+      "composite": 360.4
+    },
+    {
+      "year": 2024,
+      "capability": 741,
+      "scaling": 577,
+      "economics": 384,
+      "deployment": 286,
+      "composite": 560.4
+    },
+    {
+      "year": 2025,
+      "capability": 1223,
+      "scaling": 895,
+      "economics": 538,
+      "deployment": 371,
+      "composite": 876.2
+    },
+    {
+      "year": 2026,
+      "capability": 2018,
+      "scaling": 1387,
+      "economics": 753,
+      "deployment": 483,
+      "composite": 1377
+    }
+  ],
+  "milestones": [
+    {
+      "year": 2017,
+      "label": "Transformer architecture (Attention Is All You Need)",
+      "sourceId": "aiIndex2025"
+    },
+    {
+      "year": 2020,
+      "label": "GPT-3 scaling law inflection (rebase year)",
+      "sourceId": "aiIndex2025"
+    },
+    {
+      "year": 2022,
+      "label": "ChatGPT public release; 100M MAUs in two months",
+      "sourceId": "reutersChatGPT100M"
+    },
+    {
+      "year": 2023,
+      "label": "GPT-4 passes bar exam at ~90th percentile",
+      "sourceId": "timeGPT4BarExam"
+    },
+    {
+      "year": 2024,
+      "label": "SWE-bench Verified crosses 50%",
+      "sourceId": "sweBenchVerified"
+    },
+    {
+      "year": 2025,
+      "label": "SWE-bench Verified crosses 70%; agentic systems begin enterprise scaling",
+      "sourceId": "mckinseyStateOfAI2025"
+    },
+    {
+      "year": 2026,
+      "label": "Anthropic Claude Mythos Preview system card published",
+      "sourceId": "mythosCard"
+    }
+  ],
+  "scenarios": [
+    {
+      "label": "optimistic",
+      "endYear": 2030,
+      "endValue": 640
+    },
+    {
+      "label": "middle",
+      "endYear": 2030,
+      "endValue": 410
+    },
+    {
+      "label": "challenging",
+      "endYear": 2030,
+      "endValue": 260
+    }
+  ],
+  "sourceIds": [
+    "aiIndex2025",
+    "reutersChatGPT100M",
+    "timeGPT4BarExam",
+    "sweBenchVerified",
+    "mckinseyStateOfAI2025",
+    "mythosCard"
+  ]
+}

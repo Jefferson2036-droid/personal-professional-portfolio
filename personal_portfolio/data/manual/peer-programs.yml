@@ -1,0 +1,72 @@
+# Peer programs for /peer-programs-and-positioning handout + slide 13.
+# scripts/build-data.ts enforces exactly 7 programs.
+programs:
+  - id: njit-bseai
+    institution: New Jersey Institute of Technology
+    programName: B.S. in Enterprise AI
+    launch: Fall 2026
+    credits: 120
+    highlights:
+      - Enterprise implementation focus
+      - Eight-course studio spine
+      - IS root (applied from day one)
+    distinctiveSignal: Implementation + studio spine + IS root
+    sourceId: njitBSEAIProgramPage
+  - id: stevens-bsai
+    institution: Stevens Institute of Technology
+    programName: B.S. in Artificial Intelligence
+    launch: 2024
+    credits: null
+    highlights:
+      - Theory-forward CS root
+      - Research-adjacent
+    distinctiveSignal: Research-oriented AI major
+    sourceId: stevensAIProgram
+  - id: pace-bsai
+    institution: Pace University
+    programName: B.S. in Artificial Intelligence
+    launch: 2024
+    credits: null
+    highlights:
+      - Seidenberg CS department home
+      - NYC market access
+    distinctiveSignal: CS department AI major
+    sourceId: paceAIProgram
+  - id: kean-bsai
+    institution: Kean University
+    programName: B.S. in Artificial Intelligence
+    launch: 2024
+    credits: null
+    highlights:
+      - Public NJ access
+      - Broad CS+AI curriculum
+    distinctiveSignal: Broad-access AI major
+    sourceId: keanAIProgram
+  - id: psu-aima
+    institution: Penn State University
+    programName: B.S. in AI Methods and Applications
+    launch: 2023
+    credits: null
+    highlights:
+      - Domain-application emphasis
+    distinctiveSignal: Methods + applications framing
+    sourceId: pennStateAIMAProgram
+  - id: psu-aie
+    institution: Penn State University
+    programName: B.S. in AI Engineering
+    launch: 2024
+    credits: null
+    highlights:
+      - Engineering-school home
+    distinctiveSignal: Engineering-rooted AI degree
+    sourceId: pennStateAIEngineeringProgram
+  - id: upenn-bsai
+    institution: University of Pennsylvania
+    programName: B.S.E. in Artificial Intelligence
+    launch: 2024
+    credits: null
+    highlights:
+      - Elite engineering school
+      - Research-track
+    distinctiveSignal: Ivy engineering AI degree
+    sourceId: upennAIProgram

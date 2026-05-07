@@ -1,0 +1,61 @@
+# Governance timeline for slide 12 + /governance-and-responsible-deployment handout.
+events:
+  - date: 2024-08-01
+    jurisdiction: EU
+    label: EU AI Act enters into force
+    sourceId: euAIAct
+  - date: 2025-02-02
+    jurisdiction: EU
+    label: EU AI Act — AI literacy obligations apply
+    sourceId: euAIAct
+  - date: 2025-08-02
+    jurisdiction: EU
+    label: EU AI Act — GPAI obligations apply
+    sourceId: euAIAct
+  - date: 2026-08-02
+    jurisdiction: EU
+    label: EU AI Act — high-risk system rules apply
+    sourceId: euAIAct
+  - date: 2023-01-26
+    jurisdiction: NIST
+    label: NIST AI Risk Management Framework 1.0 published
+    sourceId: nistAIRMF
+  - date: 2024-07-26
+    jurisdiction: NIST
+    label: NIST Generative AI Profile (AI 600-1) published
+    sourceId: nistGenAIProfile
+  - date: 2019-05-22
+    jurisdiction: OECD
+    label: OECD AI Principles adopted
+    sourceId: oecdAIPrinciples
+  - date: 2021-11-23
+    jurisdiction: UNESCO
+    label: UNESCO Recommendation on the Ethics of AI adopted
+    sourceId: unescoAIEthics
+  - date: 2025-01-29
+    jurisdiction: Int
+    label: International AI Safety Report 2025 published
+    sourceId: intlAISafetyReport2025
+
+frameworks:
+  - id: nist-ai-rmf
+    label: NIST AI RMF 1.0
+    sourceId: nistAIRMF
+  - id: nist-genai-profile
+    label: NIST Generative AI Profile
+    sourceId: nistGenAIProfile
+  - id: oecd-ai-principles
+    label: OECD AI Principles
+    sourceId: oecdAIPrinciples
+  - id: unesco-ai-ethics
+    label: UNESCO AI Ethics Recommendation
+    sourceId: unescoAIEthics
+  - id: eu-ai-act
+    label: EU AI Act
+    sourceId: euAIAct
+
+incidents:
+  year: 2024
+  count: 233
+  yoyChangePct: 56.4
+  sourceId: aiIndex2025

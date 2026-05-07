@@ -1,0 +1,65 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      NEXT_PUBLIC_BASE_PATH: /bseai_degree
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build static site
+        run: npm run build
+
+      - name: Rewrite absolute asset paths for project-site basePath
+        run: |
+          find out -type f \( -name '*.html' -o -name '*.css' -o -name '*.js' \) -print0 | xargs -0 sed -i \
+            -e 's|="/images/|="/bseai_degree/images/|g' \
+            -e 's|="/studio_ordo_logo|="/bseai_degree/studio_ordo_logo|g' \
+            -e 's|="/NJIT-Eberhardt-Hall|="/bseai_degree/NJIT-Eberhardt-Hall|g' \
+            -e 's|="/njit_logo|="/bseai_degree/njit_logo|g' \
+            -e 's|="/ordo_icon|="/bseai_degree/ordo_icon|g' \
+            -e 's|url(/images/|url(/bseai_degree/images/|g' \
+            -e 's|url(/NJIT-Eberhardt-Hall|url(/bseai_degree/NJIT-Eberhardt-Hall|g' \
+            -e 's|url(/studio_ordo_logo|url(/bseai_degree/studio_ordo_logo|g' \
+            -e 's|url("/images/|url("/bseai_degree/images/|g' \
+            -e 's|url("/NJIT-Eberhardt-Hall|url("/bseai_degree/NJIT-Eberhardt-Hall|g'
+          touch out/.nojekyll
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: out
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

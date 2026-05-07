@@ -1,0 +1,37 @@
+# Enterprise AI adoption figures with paired scale-gap figures.
+# Doctrine/01 rule §3: every adoption number ships paired with a scale-gap number.
+# scripts/build-data.ts enforces this — build fails if an adoption row lacks pairedScaleGapMetric.
+rows:
+  - metric: orgs using AI in >=1 function
+    value: 88
+    unit: percent
+    asOf: 2025-10-01
+    sourceId: mckinseyStateOfAI2025
+    pairedScaleGapMetric: orgs reporting enterprise-level EBIT impact
+  - metric: orgs reporting enterprise-level EBIT impact
+    value: 39
+    unit: percent
+    asOf: 2025-10-01
+    sourceId: mckinseyStateOfAI2025
+  - metric: orgs scaling an agentic system somewhere
+    value: 23
+    unit: percent
+    asOf: 2025-10-01
+    sourceId: mckinseyStateOfAI2025
+    pairedScaleGapMetric: orgs scaling agents in any single function
+  - metric: orgs scaling agents in any single function
+    value: 10
+    unit: percent
+    asOf: 2025-10-01
+    sourceId: mckinseyStateOfAI2025
+  - metric: firms abandoning most AI initiatives before production
+    value: 42
+    unit: percent
+    asOf: 2025-09-01
+    sourceId: spGlobalVotE2025
+    pairedScaleGapMetric: projects scrapped between PoC and broad adoption
+  - metric: projects scrapped between PoC and broad adoption
+    value: 46
+    unit: percent
+    asOf: 2025-09-01
+    sourceId: spGlobalVotE2025

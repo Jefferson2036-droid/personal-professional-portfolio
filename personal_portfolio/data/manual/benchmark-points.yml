@@ -1,0 +1,30 @@
+# Benchmark score points. Each row: series id, ISO date, model, score (percent), source ID.
+# Author-curated from docs/_references/benchmarks.md — edit here, not in components.
+points:
+  - seriesId: swe-bench-verified
+    date: 2024-05-01
+    model: Claude 3 Opus
+    score: 18.2
+    sourceId: benchmarksLocal
+  - seriesId: swe-bench-verified
+    date: 2024-10-22
+    model: Claude 3.5 Sonnet
+    score: 49.0
+    sourceId: sweBenchVerified
+  - seriesId: swe-bench-verified
+    date: 2025-02-24
+    model: Claude 3.7 Sonnet
+    score: 62.3
+    sourceId: sweBenchVerified
+  - seriesId: swe-bench-verified
+    date: 2025-05-22
+    model: Claude 4 Sonnet
+    score: 72.7
+    sourceId: sweBenchVerified
+  - seriesId: swe-bench-verified
+    date: 2026-04-07
+    model: Claude Mythos Preview
+    score: 82.4
+    sourceId: mythosCard
+
+rates: []

@@ -1,0 +1,36 @@
+# Frontier AI Intensity Index (FAII) — milestone markers and scenario envelopes.
+# The raw FAII time series is synthesized by scripts/build-data.ts from milestones + component weights.
+milestones:
+  - year: 2017
+    label: Transformer architecture (Attention Is All You Need)
+    sourceId: aiIndex2025
+  - year: 2020
+    label: GPT-3 scaling law inflection (rebase year)
+    sourceId: aiIndex2025
+  - year: 2022
+    label: ChatGPT public release; 100M MAUs in two months
+    sourceId: reutersChatGPT100M
+  - year: 2023
+    label: GPT-4 passes bar exam at ~90th percentile
+    sourceId: timeGPT4BarExam
+  - year: 2024
+    label: SWE-bench Verified crosses 50%
+    sourceId: sweBenchVerified
+  - year: 2025
+    label: SWE-bench Verified crosses 70%; agentic systems begin enterprise scaling
+    sourceId: mckinseyStateOfAI2025
+  - year: 2026
+    label: Anthropic Claude Mythos Preview system card published
+    sourceId: mythosCard
+
+# Scenario envelopes at end-year 2030 (composite, 2020=100).
+scenarios:
+  - label: optimistic
+    endYear: 2030
+    endValue: 640
+  - label: middle
+    endYear: 2030
+    endValue: 410
+  - label: challenging
+    endYear: 2030
+    endValue: 260
