@@ -43,10 +43,20 @@ const SplitLayoutBlock = ({ slide, textWrapperClass }: { slide: SlideNode, textW
 };
 
 const StandardLayoutBlock = ({ slide, textWrapperClass, hasBackground }: { slide: SlideNode, textWrapperClass: string, hasBackground: boolean }) => {
+  const isPortfolioSlide =
+    slide.cleanContent.includes("portfolio-") ||
+    slide.cleanContent.includes("identity-anchor") ||
+    slide.cleanContent.includes("strategic-foundation");
+  const panelClass = [
+    textWrapperClass,
+    hasBackground ? 'presentation-background-panel' : 'presentation-standard-panel',
+    isPortfolioSlide ? 'presentation-panel--portfolio' : '',
+  ].filter(Boolean).join(' ');
+
   return (
     <div className={`presentation-copy-frame ${hasBackground ? 'presentation-copy-frame--background' : 'presentation-copy-frame--standard'}`}>
       <SceneCard variant="section" sequence="delayed">
-        <div className={`${textWrapperClass} ${hasBackground ? 'presentation-background-panel' : 'presentation-standard-panel'}`.trim()}>
+        <div className={panelClass}>
           <MarkdownRenderer source={slide.cleanContent} layout="presentation" />
         </div>
       </SceneCard>
@@ -66,12 +76,11 @@ export function PresentationLayout({ page }: LayoutProps) {
       {slides.map((slide, index) => {
         const hasBackground = !!slide.backgroundSrc;
         const textWrapperClass = hasBackground ? "theme-dark glass-panel glass-panel--dark" : "";
-
         return (
           <PresentationSlide 
             key={index} 
             index={index}
-            backgroundColor={hasBackground ? '#000' : '#f5f1ea'}
+            backgroundColor={hasBackground ? '#000' : '#000000'}
             hasBackground={hasBackground}
           >
             {slide.backgroundSrc && (

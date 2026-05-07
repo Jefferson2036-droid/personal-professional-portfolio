@@ -5,6 +5,6 @@ export default tseslint.config(
   eslint.configs.recommended,
   ...tseslint.configs.recommended,
   {
-    ignores: ['.next/**', 'out/**', 'docs/**', 'node_modules/**', 'tests/browser/**']
+    ignores: ['.next/**', 'out/**', 'docs/**', 'node_modules/**', 'tests/browser/**', 'personal_portfolio/**']
   }
 );
